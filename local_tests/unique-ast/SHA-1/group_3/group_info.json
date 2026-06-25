@@ -1,0 +1,93 @@
+{
+  "signature": "aa7d5a6c1886bcd7fb1d55cb649ca641",
+  "fileCount": 18,
+  "representative": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0026234afda7477b_SHA-1_v3_-y9zt4.js",
+  "structure": {
+    "depth": 8,
+    "complexity": 36,
+    "patterns": [
+      "assign_=",
+      "assign_=",
+      "binary_instanceof",
+      "call_1args",
+      "func_0params",
+      "if_noelse"
+    ],
+    "nodeTypeCount": 36,
+    "wrapperType": "none"
+  },
+  "files": [
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0026234afda7477b_SHA-1_v3_-y9zt4.js",
+      "name": "wx0026234afda7477b_SHA-1_v3_-y9zt4.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0026234afda7477b_SHA-1_v4_-p3jsz.js",
+      "name": "wx0026234afda7477b_SHA-1_v4_-p3jsz.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01351a762d0efdf5_SHA-1_v10_89ipwz.js",
+      "name": "wx01351a762d0efdf5_SHA-1_v10_89ipwz.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01351a762d0efdf5_SHA-1_v7_jxn8ci.js",
+      "name": "wx01351a762d0efdf5_SHA-1_v7_jxn8ci.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx017ae316ea284e7c_SHA-1_v11_-lazdc.js",
+      "name": "wx017ae316ea284e7c_SHA-1_v11_-lazdc.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx017ae316ea284e7c_SHA-1_v12_-srlzz.js",
+      "name": "wx017ae316ea284e7c_SHA-1_v12_-srlzz.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02343c1ee5ea2b8a_SHA-1_v15_-hqh5x.js",
+      "name": "wx02343c1ee5ea2b8a_SHA-1_v15_-hqh5x.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02b98b8ae5513413_SHA-1_v18_-kdk7y.js",
+      "name": "wx02b98b8ae5513413_SHA-1_v18_-kdk7y.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02b98b8ae5513413_SHA-1_v20_bqmm7l.js",
+      "name": "wx02b98b8ae5513413_SHA-1_v20_bqmm7l.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03bc60e1b437e39c_SHA-1_v26_-a89rk.js",
+      "name": "wx03bc60e1b437e39c_SHA-1_v26_-a89rk.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03bc60e1b437e39c_SHA-1_v27_dh6kcw.js",
+      "name": "wx03bc60e1b437e39c_SHA-1_v27_dh6kcw.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03d998b472103906_SHA-1_v30_-zdw5g.js",
+      "name": "wx03d998b472103906_SHA-1_v30_-zdw5g.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03d998b472103906_SHA-1_v33_-qk5dv.js",
+      "name": "wx03d998b472103906_SHA-1_v33_-qk5dv.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx04da6ac6acae26f6_SHA-1_v37_eb1o7k.js",
+      "name": "wx04da6ac6acae26f6_SHA-1_v37_eb1o7k.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0526b0432a899356_SHA-1_v38_-23khs.js",
+      "name": "wx0526b0432a899356_SHA-1_v38_-23khs.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0526b0432a899356_SHA-1_v41_rnkitk.js",
+      "name": "wx0526b0432a899356_SHA-1_v41_rnkitk.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06b5c05a0ee5060e_SHA-1_v56_sp03wx.js",
+      "name": "wx06b5c05a0ee5060e_SHA-1_v56_sp03wx.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0a8a5be3869df5e5_SHA-1_v67_-kpwst.js",
+      "name": "wx0a8a5be3869df5e5_SHA-1_v67_-kpwst.js"
+    }
+  ]
+}

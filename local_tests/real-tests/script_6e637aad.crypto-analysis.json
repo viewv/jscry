@@ -1,0 +1,223 @@
+{
+  "success": true,
+  "error": null,
+  "file": "/Users/viewv/jscry/local_tests/real-tests/script_6e637aad.js",
+  "results": {
+    "detected_count": 12,
+    "algorithms": [
+      "AES",
+      "SHA-1",
+      "MD5",
+      "SHA-256"
+    ],
+    "confidence_scores": {
+      "AES": 0.95,
+      "SHA-1": 0.98,
+      "MD5": 0.95,
+      "SHA-256": 0.9
+    },
+    "detailed_results": {
+      "AES": [
+        {
+          "variable": "___",
+          "type": "Round constants",
+          "confidence": 0.8,
+          "position": {
+            "start": {
+              "line": 5404,
+              "column": 13
+            },
+            "end": {
+              "line": 5404,
+              "column": 53
+            }
+          },
+          "source": "static"
+        },
+        {
+          "variable": "a",
+          "type": "S-box",
+          "confidence": 0.95,
+          "position": {
+            "start": {
+              "line": 5382,
+              "column": 8
+            },
+            "end": {
+              "line": 5403,
+              "column": 12
+            }
+          },
+          "source": "dynamic-iife"
+        },
+        {
+          "variable": "a",
+          "type": "S-box",
+          "confidence": 0.95,
+          "position": {
+            "start": {
+              "line": 5382,
+              "column": 9
+            },
+            "end": {
+              "line": 5403,
+              "column": 9
+            }
+          },
+          "source": "dynamic-function"
+        },
+        {
+          "variable": "s",
+          "type": "Inverse S-box",
+          "confidence": 0.95,
+          "position": {
+            "start": {
+              "line": 5382,
+              "column": 8
+            },
+            "end": {
+              "line": 5403,
+              "column": 12
+            }
+          },
+          "source": "dynamic-iife"
+        },
+        {
+          "variable": "s",
+          "type": "Inverse S-box",
+          "confidence": 0.95,
+          "position": {
+            "start": {
+              "line": 5382,
+              "column": 9
+            },
+            "end": {
+              "line": 5403,
+              "column": 9
+            }
+          },
+          "source": "dynamic-function"
+        }
+      ],
+      "SHA-1": [
+        {
+          "variable": "___",
+          "type": "Initial hash values",
+          "confidence": 0.98,
+          "position": {
+            "start": {
+              "line": 5944,
+              "column": 38
+            },
+            "end": {
+              "line": 5946,
+              "column": 15
+            }
+          },
+          "source": "static"
+        },
+        {
+          "variable": "___",
+          "type": "Initial hash values",
+          "confidence": 0.98,
+          "position": {
+            "start": {
+              "line": 6626,
+              "column": 38
+            },
+            "end": {
+              "line": 6628,
+              "column": 17
+            }
+          },
+          "source": "static"
+        }
+      ],
+      "MD5": [
+        {
+          "variable": "___",
+          "type": "Initial hash values",
+          "confidence": 0.95,
+          "position": {
+            "start": {
+              "line": 13214,
+              "column": 38
+            },
+            "end": {
+              "line": 13216,
+              "column": 15
+            }
+          },
+          "source": "static"
+        }
+      ],
+      "SHA-256": [
+        {
+          "variable": "l",
+          "type": "Initial hash values",
+          "confidence": 0.9,
+          "position": {
+            "start": {
+              "line": 6133,
+              "column": 8
+            },
+            "end": {
+              "line": 6147,
+              "column": 12
+            }
+          },
+          "source": "dynamic-iife"
+        },
+        {
+          "variable": "l",
+          "type": "Initial hash values",
+          "confidence": 0.9,
+          "position": {
+            "start": {
+              "line": 6133,
+              "column": 9
+            },
+            "end": {
+              "line": 6147,
+              "column": 9
+            }
+          },
+          "source": "dynamic-function"
+        },
+        {
+          "variable": "f",
+          "type": "Round constants",
+          "confidence": 0.8,
+          "position": {
+            "start": {
+              "line": 6133,
+              "column": 8
+            },
+            "end": {
+              "line": 6147,
+              "column": 12
+            }
+          },
+          "source": "dynamic-iife"
+        },
+        {
+          "variable": "f",
+          "type": "Round constants",
+          "confidence": 0.8,
+          "position": {
+            "start": {
+              "line": 6133,
+              "column": 9
+            },
+            "end": {
+              "line": 6147,
+              "column": 9
+            }
+          },
+          "source": "dynamic-function"
+        }
+      ]
+    },
+    "summary": "Detected 12 cryptographic patterns in 4 algorithms"
+  }
+}

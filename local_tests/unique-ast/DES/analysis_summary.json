@@ -1,0 +1,17 @@
+{
+  "algorithm": "DES",
+  "timestamp": "2025-07-06T10:54:45.205Z",
+  "totalGroups": 1,
+  "totalFiles": 13,
+  "groups": [
+    {
+      "groupId": 1,
+      "signature": "ca11d675031b3553fb118becaadee155",
+      "fileCount": 13,
+      "representative": "wx0026234afda7477b_DES_v1_h2dw2o.js",
+      "complexity": 1605,
+      "depth": 21,
+      "wrapperType": "iife"
+    }
+  ]
+}

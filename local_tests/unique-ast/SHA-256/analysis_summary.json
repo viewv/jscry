@@ -1,0 +1,44 @@
+{
+  "algorithm": "SHA-256",
+  "timestamp": "2025-07-06T10:55:48.814Z",
+  "totalGroups": 4,
+  "totalFiles": 36,
+  "groups": [
+    {
+      "groupId": 1,
+      "signature": "7affe100bab17e149cef9d617520fc78",
+      "fileCount": 1,
+      "representative": "wx0000cbb134e718d0_SHA-256_v1_ghrkcs.js",
+      "complexity": 737,
+      "depth": 24,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 2,
+      "signature": "e5451e60a3b788c89ad34f6eca6eec62",
+      "fileCount": 3,
+      "representative": "wx0000cbb134e718d0_SHA-256_v2_-r1suy.js",
+      "complexity": 19924,
+      "depth": 37,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 3,
+      "signature": "ab012a2e88fd785ba3154b7bfaab042d",
+      "fileCount": 26,
+      "representative": "wx0026234afda7477b_SHA-256_v3_-mk8q6.js",
+      "complexity": 44,
+      "depth": 8,
+      "wrapperType": "none"
+    },
+    {
+      "groupId": 4,
+      "signature": "ee56fa0da9f1727ba51476cc28093ffd",
+      "fileCount": 6,
+      "representative": "wx00ab3b87c92b68e4_SHA-256_v5_-ipy8b.js",
+      "complexity": 424,
+      "depth": 20,
+      "wrapperType": "iife"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "signature": "6d31b3775c465d32865e4302e9e146c9",
+  "fileCount": 4,
+  "representative": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/MD5/wx01412c13d250ec52_MD5_v8_-8i6r4.js",
+  "structure": {
+    "depth": 11,
+    "complexity": 207,
+    "patterns": [
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_|=",
+      "assign_|=",
+      "binary_%",
+      "binary_%",
+      "binary_*",
+      "binary_-",
+      "binary_-",
+      "binary_<",
+      "binary_<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<=",
+      "binary_>",
+      "binary_>>",
+      "binary_>>",
+      "call_1args",
+      "call_1args",
+      "call_1args",
+      "call_1args",
+      "call_1args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "func_1params",
+      "if_noelse",
+      "large_array_10",
+      "loop_ForStatement",
+      "loop_ForStatement",
+      "loop_ForStatement"
+    ],
+    "nodeTypeCount": 207,
+    "wrapperType": "none"
+  },
+  "files": [
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/MD5/wx01412c13d250ec52_MD5_v8_-8i6r4.js",
+      "name": "wx01412c13d250ec52_MD5_v8_-8i6r4.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/MD5/wx01412c13d250ec52_MD5_v9_-rnfin.js",
+      "name": "wx01412c13d250ec52_MD5_v9_-rnfin.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/MD5/wx0551abe2395c5dfb_MD5_v35_eenavq.js",
+      "name": "wx0551abe2395c5dfb_MD5_v35_eenavq.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/MD5/wx0551abe2395c5dfb_MD5_v36_lg5sm8.js",
+      "name": "wx0551abe2395c5dfb_MD5_v36_lg5sm8.js"
+    }
+  ]
+}

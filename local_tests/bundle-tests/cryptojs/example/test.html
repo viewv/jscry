@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoJS Bundle Test</title>
+</head>
+<body>
+    <h1>CryptoJS Bundle Test</h1>
+    <div id="output"></div>
+
+    <script src="../dist/cryptojs.umd.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            output.innerHTML += '<p>' + message + '</p>';
+        }
+        
+        // 测试加密解密
+        const message = 'Hello World from Browser!';
+        const key = 'my-secret-key';
+        
+        try {
+            // AES 加密
+            const encrypted = CryptoJS.AES.encrypt(message, key).toString();
+            log('Original: ' + message);
+            log('Encrypted: ' + encrypted);
+            
+            // AES 解密
+            const decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+            log('Decrypted: ' + decrypted);
+            
+            // 哈希测试
+            const md5 = CryptoJS.MD5(message).toString();
+            const sha256 = CryptoJS.SHA256(message).toString();
+            
+            log('MD5: ' + md5);
+            log('SHA256: ' + sha256);
+            
+            log('✅ All tests passed!');
+        } catch (error) {
+            log('❌ Error: ' + error.message);
+        }
+    </script>
+</body>
+</html>

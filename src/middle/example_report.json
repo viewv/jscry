@@ -1,0 +1,164 @@
+{
+    "appid": "wx0a4f8f017debaea0",
+    "total_files": 39,
+    "analyzed_files": [
+        {
+            "file_path": "output/wx0a4f8f017debaea0/static/js/aes.js",
+            "relative_path": "static/js/aes.js",
+            "analysis": {
+                "success": true,
+                "error": null,
+                "file": "output/wx0a4f8f017debaea0/static/js/aes.js",
+                "results": {
+                    "detected_count": 3,
+                    "algorithms": [
+                        "AES",
+                        "MD5"
+                    ],
+                    "confidence_scores": {
+                        "AES": 0.8,
+                        "MD5": 0.95
+                    },
+                    "detailed_results": {
+                        "AES": [
+                            {
+                                "variable": "S",
+                                "type": "Round constants",
+                                "confidence": 0.8,
+                                "position": {
+                                    "start": {
+                                        "line": 406,
+                                        "column": 4
+                                    },
+                                    "end": {
+                                        "line": 434,
+                                        "column": 7
+                                    }
+                                },
+                                "source": "static"
+                            },
+                            {
+                                "variable": "___",
+                                "type": "Round constants",
+                                "confidence": 0.8,
+                                "position": {
+                                    "start": {
+                                        "line": 406,
+                                        "column": 12
+                                    },
+                                    "end": {
+                                        "line": 406,
+                                        "column": 54
+                                    }
+                                },
+                                "source": "static"
+                            }
+                        ],
+                        "MD5": [
+                            {
+                                "variable": "___",
+                                "type": "Initial hash values",
+                                "confidence": 0.95,
+                                "position": {
+                                    "start": {
+                                        "line": 176,
+                                        "column": 36
+                                    },
+                                    "end": {
+                                        "line": 176,
+                                        "column": 85
+                                    }
+                                },
+                                "source": "static"
+                            }
+                        ]
+                    },
+                    "summary": "Detected 3 cryptographic patterns in 2 algorithms"
+                }
+            }
+        },
+        {
+            "file_path": "output/wx0a4f8f017debaea0/common/vendor.js",
+            "relative_path": "common/vendor.js",
+            "analysis": {
+                "success": true,
+                "error": null,
+                "file": "output/wx0a4f8f017debaea0/common/vendor.js",
+                "results": {
+                    "detected_count": 3,
+                    "algorithms": [
+                        "AES",
+                        "MD5"
+                    ],
+                    "confidence_scores": {
+                        "AES": 0.8,
+                        "MD5": 0.95
+                    },
+                    "detailed_results": {
+                        "AES": [
+                            {
+                                "variable": "O",
+                                "type": "Round constants",
+                                "confidence": 0.8,
+                                "position": {
+                                    "start": {
+                                        "line": 4227,
+                                        "column": 12
+                                    },
+                                    "end": {
+                                        "line": 4227,
+                                        "column": 63
+                                    }
+                                },
+                                "source": "static"
+                            },
+                            {
+                                "variable": "___",
+                                "type": "Round constants",
+                                "confidence": 0.8,
+                                "position": {
+                                    "start": {
+                                        "line": 4227,
+                                        "column": 20
+                                    },
+                                    "end": {
+                                        "line": 4227,
+                                        "column": 62
+                                    }
+                                },
+                                "source": "static"
+                            }
+                        ],
+                        "MD5": [
+                            {
+                                "variable": "___",
+                                "type": "Initial hash values",
+                                "confidence": 0.95,
+                                "position": {
+                                    "start": {
+                                        "line": 3993,
+                                        "column": 44
+                                    },
+                                    "end": {
+                                        "line": 3993,
+                                        "column": 93
+                                    }
+                                },
+                                "source": "static"
+                            }
+                        ]
+                    },
+                    "summary": "Detected 3 cryptographic patterns in 2 algorithms"
+                }
+            }
+        }
+    ],
+    "summary": {
+        "total_crypto_patterns": 6,
+        "files_with_crypto": 2,
+        "algorithms_found": [
+            "MD5",
+            "AES"
+        ]
+    }
+}

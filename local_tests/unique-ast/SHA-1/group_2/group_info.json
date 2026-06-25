@@ -1,0 +1,286 @@
+{
+  "signature": "570a7c4e4854a1b5c3baf60dd2d7e408",
+  "fileCount": 24,
+  "representative": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0000cbb134e718d0_SHA-1_v2_-lm8sw.js",
+  "structure": {
+    "depth": 19,
+    "complexity": 733,
+    "patterns": [
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_|=",
+      "binary_%",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_*",
+      "binary_*",
+      "binary_*",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_-",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "call_0args",
+      "call_0args",
+      "call_1args",
+      "call_1args",
+      "call_1args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "call_2args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "call_3args",
+      "func_0params",
+      "func_0params",
+      "func_0params",
+      "func_2params",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "loop_ForStatement",
+      "loop_ForStatement",
+      "loop_ForStatement",
+      "obj_4props"
+    ],
+    "nodeTypeCount": 733,
+    "wrapperType": "none"
+  },
+  "files": [
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0000cbb134e718d0_SHA-1_v2_-lm8sw.js",
+      "name": "wx0000cbb134e718d0_SHA-1_v2_-lm8sw.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx00f744db1fcf1c18_SHA-1_v6_-ghfl3.js",
+      "name": "wx00f744db1fcf1c18_SHA-1_v6_-ghfl3.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01351a762d0efdf5_SHA-1_v8_-yji10.js",
+      "name": "wx01351a762d0efdf5_SHA-1_v8_-yji10.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01c948dc098d7bc3_SHA-1_v13_k09ybw.js",
+      "name": "wx01c948dc098d7bc3_SHA-1_v13_k09ybw.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02343c1ee5ea2b8a_SHA-1_v17_-d1jm9.js",
+      "name": "wx02343c1ee5ea2b8a_SHA-1_v17_-d1jm9.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02b98b8ae5513413_SHA-1_v19_-iegul.js",
+      "name": "wx02b98b8ae5513413_SHA-1_v19_-iegul.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02ba65544e9d9396_SHA-1_v23_3szui2.js",
+      "name": "wx02ba65544e9d9396_SHA-1_v23_3szui2.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx032fe89cadaeebc5_SHA-1_v25_6y38wb.js",
+      "name": "wx032fe89cadaeebc5_SHA-1_v25_6y38wb.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03bc60e1b437e39c_SHA-1_v29_mnk6b.js",
+      "name": "wx03bc60e1b437e39c_SHA-1_v29_mnk6b.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03d998b472103906_SHA-1_v32_t855hw.js",
+      "name": "wx03d998b472103906_SHA-1_v32_t855hw.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx049ad3906b202f16_SHA-1_v35_cxyooi.js",
+      "name": "wx049ad3906b202f16_SHA-1_v35_cxyooi.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0526b0432a899356_SHA-1_v40_shnv5m.js",
+      "name": "wx0526b0432a899356_SHA-1_v40_shnv5m.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0535b07817d80042_SHA-1_v43_-wdjxp.js",
+      "name": "wx0535b07817d80042_SHA-1_v43_-wdjxp.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx056f6e5e5a7b7cfd_SHA-1_v47_-do84r.js",
+      "name": "wx056f6e5e5a7b7cfd_SHA-1_v47_-do84r.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx05ff3e6933129cb4_SHA-1_v50_a1c322.js",
+      "name": "wx05ff3e6933129cb4_SHA-1_v50_a1c322.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0611624cc959bd21_SHA-1_v51_y7nszn.js",
+      "name": "wx0611624cc959bd21_SHA-1_v51_y7nszn.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06b5c05a0ee5060e_SHA-1_v55_-nzwfx.js",
+      "name": "wx06b5c05a0ee5060e_SHA-1_v55_-nzwfx.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06b6de786904167a_SHA-1_v57_-o8i0y.js",
+      "name": "wx06b6de786904167a_SHA-1_v57_-o8i0y.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06ef95130dd6a356_SHA-1_v59_-hqtr3.js",
+      "name": "wx06ef95130dd6a356_SHA-1_v59_-hqtr3.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06f1de32ab045cf6_SHA-1_v60_8hhzuj.js",
+      "name": "wx06f1de32ab045cf6_SHA-1_v60_8hhzuj.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx084dc96bc462831d_SHA-1_v62_ijrtj.js",
+      "name": "wx084dc96bc462831d_SHA-1_v62_ijrtj.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0918c90b968366db_SHA-1_v65_746nh1.js",
+      "name": "wx0918c90b968366db_SHA-1_v65_746nh1.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0a8a5be3869df5e5_SHA-1_v69_-eeruc.js",
+      "name": "wx0a8a5be3869df5e5_SHA-1_v69_-eeruc.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0acaace3d32b6939_SHA-1_v71_j3qkrt.js",
+      "name": "wx0acaace3d32b6939_SHA-1_v71_j3qkrt.js"
+    }
+  ]
+}

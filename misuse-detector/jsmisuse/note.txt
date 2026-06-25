@@ -1,0 +1,8 @@
+# 使用动态分析（默认）
+node parallel_output_analyzer.js
+
+# 使用静态分析
+node parallel_output_analyzer.js --static
+
+# 指定工作进程数
+node parallel_output_analyzer.js --static --workers 4

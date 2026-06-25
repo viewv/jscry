@@ -1,0 +1,80 @@
+{
+  "algorithm": "AES",
+  "timestamp": "2025-07-06T10:33:18.901Z",
+  "totalGroups": 8,
+  "totalFiles": 67,
+  "groups": [
+    {
+      "groupId": 1,
+      "signature": "82469af22261e09bccfec16c0e3e0b27",
+      "fileCount": 1,
+      "representative": "slow.js",
+      "complexity": 4731,
+      "depth": 22,
+      "wrapperType": "none"
+    },
+    {
+      "groupId": 2,
+      "signature": "c68f061362d62dbe4978f3377cafbad7",
+      "fileCount": 35,
+      "representative": "wx0000cbb134e718d0_AES_v1_-3ijwu.js",
+      "complexity": 1231,
+      "depth": 29,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 3,
+      "signature": "e5451e60a3b788c89ad34f6eca6eec62",
+      "fileCount": 7,
+      "representative": "wx0000cbb134e718d0_AES_v2_-r1suy.js",
+      "complexity": 19924,
+      "depth": 37,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 4,
+      "signature": "35bbbd9ea81aa19e7092f25463b1841d",
+      "fileCount": 14,
+      "representative": "wx0026234afda7477b_AES_v4_-566ty.js",
+      "complexity": 1405,
+      "depth": 24,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 5,
+      "signature": "e697b95dac2ed401483b37eeff4121bc",
+      "fileCount": 2,
+      "representative": "wx00320ebfcd411e21_AES_v5_duokd2.js",
+      "complexity": 7545,
+      "depth": 31,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 6,
+      "signature": "add78f735c88c58a7d1c4d90f93d6d9d",
+      "fileCount": 6,
+      "representative": "wx00ab3b87c92b68e4_AES_v6_-1jm85.js",
+      "complexity": 1933,
+      "depth": 23,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 7,
+      "signature": "ae74700238d72d94fdbe151d3050d847",
+      "fileCount": 1,
+      "representative": "wx04a3f58ae0f5f1bb_AES_v33_6oymbg.js",
+      "complexity": 4131,
+      "depth": 45,
+      "wrapperType": "iife"
+    },
+    {
+      "groupId": 8,
+      "signature": "c5eedbc1c4e09466fc47ce4240fb99f2",
+      "fileCount": 1,
+      "representative": "wx0757e6b02994b562_AES_v54_-2z1ad.js",
+      "complexity": 2070,
+      "depth": 33,
+      "wrapperType": "iife"
+    }
+  ]
+}

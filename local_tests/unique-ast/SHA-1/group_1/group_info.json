@@ -1,0 +1,235 @@
+{
+  "signature": "715fa0a75347a8637b4bb8dd3a0966c8",
+  "fileCount": 29,
+  "representative": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0000cbb134e718d0_SHA-1_v1_r0xbrn.js",
+  "structure": {
+    "depth": 20,
+    "complexity": 430,
+    "patterns": [
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_+=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_=",
+      "assign_|=",
+      "binary_%",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_&",
+      "binary_*",
+      "binary_*",
+      "binary_*",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_+",
+      "binary_-",
+      "binary_-",
+      "binary_-",
+      "binary_-",
+      "binary_-",
+      "binary_-",
+      "binary_-",
+      "binary_/",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_<<",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_>>>",
+      "binary_^",
+      "binary_^",
+      "binary_^",
+      "binary_^",
+      "binary_^",
+      "binary_^",
+      "binary_^",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "binary_|",
+      "call_0args",
+      "call_0args",
+      "call_1args",
+      "call_1args",
+      "call_1args",
+      "func_0params",
+      "func_0params",
+      "func_0params",
+      "func_2params",
+      "if_else",
+      "if_else",
+      "if_else",
+      "if_else",
+      "loop_ForStatement",
+      "obj_4props"
+    ],
+    "nodeTypeCount": 430,
+    "wrapperType": "none"
+  },
+  "files": [
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0000cbb134e718d0_SHA-1_v1_r0xbrn.js",
+      "name": "wx0000cbb134e718d0_SHA-1_v1_r0xbrn.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx00f744db1fcf1c18_SHA-1_v5_-tf5ir.js",
+      "name": "wx00f744db1fcf1c18_SHA-1_v5_-tf5ir.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01351a762d0efdf5_SHA-1_v9_5jufzo.js",
+      "name": "wx01351a762d0efdf5_SHA-1_v9_5jufzo.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx01c948dc098d7bc3_SHA-1_v14_zgzjjc.js",
+      "name": "wx01c948dc098d7bc3_SHA-1_v14_zgzjjc.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02343c1ee5ea2b8a_SHA-1_v16_-vlvga.js",
+      "name": "wx02343c1ee5ea2b8a_SHA-1_v16_-vlvga.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02b98b8ae5513413_SHA-1_v21_ivvn64.js",
+      "name": "wx02b98b8ae5513413_SHA-1_v21_ivvn64.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx02ba65544e9d9396_SHA-1_v22_-cko2g.js",
+      "name": "wx02ba65544e9d9396_SHA-1_v22_-cko2g.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx032fe89cadaeebc5_SHA-1_v24_cc9n0y.js",
+      "name": "wx032fe89cadaeebc5_SHA-1_v24_cc9n0y.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03bc60e1b437e39c_SHA-1_v28_fhqho7.js",
+      "name": "wx03bc60e1b437e39c_SHA-1_v28_fhqho7.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03d998b472103906_SHA-1_v31_f5ztfu.js",
+      "name": "wx03d998b472103906_SHA-1_v31_f5ztfu.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx03e0fe1b41c2ac20_SHA-1_v34_wgbaqr.js",
+      "name": "wx03e0fe1b41c2ac20_SHA-1_v34_wgbaqr.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx04a3f58ae0f5f1bb_SHA-1_v36_tvtazb.js",
+      "name": "wx04a3f58ae0f5f1bb_SHA-1_v36_tvtazb.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0526b0432a899356_SHA-1_v39_-aqi1t.js",
+      "name": "wx0526b0432a899356_SHA-1_v39_-aqi1t.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0535b07817d80042_SHA-1_v42_-5aekg.js",
+      "name": "wx0535b07817d80042_SHA-1_v42_-5aekg.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0560c135d0e0d2eb_SHA-1_v44_-y2eej.js",
+      "name": "wx0560c135d0e0d2eb_SHA-1_v44_-y2eej.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0565f01163c6eebb_SHA-1_v45_-hvrwg.js",
+      "name": "wx0565f01163c6eebb_SHA-1_v45_-hvrwg.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx056f6e5e5a7b7cfd_SHA-1_v46_-lhsyi.js",
+      "name": "wx056f6e5e5a7b7cfd_SHA-1_v46_-lhsyi.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx05f54f79939f91b3_SHA-1_v48_-j88gr.js",
+      "name": "wx05f54f79939f91b3_SHA-1_v48_-j88gr.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx05ff3e6933129cb4_SHA-1_v49_dimd50.js",
+      "name": "wx05ff3e6933129cb4_SHA-1_v49_dimd50.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0611624cc959bd21_SHA-1_v52_-x7gw7.js",
+      "name": "wx0611624cc959bd21_SHA-1_v52_-x7gw7.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx064afb0a8512fc4b_SHA-1_v53_rh2iyd.js",
+      "name": "wx064afb0a8512fc4b_SHA-1_v53_rh2iyd.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06b5c05a0ee5060e_SHA-1_v54_-rrl2s.js",
+      "name": "wx06b5c05a0ee5060e_SHA-1_v54_-rrl2s.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06ef95130dd6a356_SHA-1_v58_by6pae.js",
+      "name": "wx06ef95130dd6a356_SHA-1_v58_by6pae.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx06f1de32ab045cf6_SHA-1_v61_ox374y.js",
+      "name": "wx06f1de32ab045cf6_SHA-1_v61_ox374y.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx084dc96bc462831d_SHA-1_v63_-v4ux9.js",
+      "name": "wx084dc96bc462831d_SHA-1_v63_-v4ux9.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0918c90b968366db_SHA-1_v64_-35ki6.js",
+      "name": "wx0918c90b968366db_SHA-1_v64_-35ki6.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx096165b43f0c4678_SHA-1_v66_-kegk0.js",
+      "name": "wx096165b43f0c4678_SHA-1_v66_-kegk0.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0a8a5be3869df5e5_SHA-1_v68_kqe33y.js",
+      "name": "wx0a8a5be3869df5e5_SHA-1_v68_kqe33y.js"
+    },
+    {
+      "path": "/Users/viewv/Develop/jsmisuse/local_tests/sliced/SHA-1/wx0a9e003b012f33db_SHA-1_v70_jsvm2.js",
+      "name": "wx0a9e003b012f33db_SHA-1_v70_jsvm2.js"
+    }
+  ]
+}

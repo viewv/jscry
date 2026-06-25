@@ -1,0 +1,22 @@
+{
+    "name": "misuse-detector",
+    "version": "1.0.0",
+    "description": "A tool to detect cryptographic misuse in web applications",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "test": "jest"
+    },
+    "dependencies": {
+        "cheerio": "^1.0.0-rc.12",
+        "commander": "^10.0.0",
+        "csv-parser": "^3.0.0",
+        "node-fetch": "^2.6.9",
+        "puppeteer": "^19.7.0",
+        "sqlite": "^5.1.1",
+        "sqlite3": "^5.1.6"
+    },
+    "devDependencies": {
+        "jest": "^29.5.0"
+    }
+}

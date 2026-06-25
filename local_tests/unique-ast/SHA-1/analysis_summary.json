@@ -1,0 +1,35 @@
+{
+  "algorithm": "SHA-1",
+  "timestamp": "2025-07-06T10:54:57.967Z",
+  "totalGroups": 3,
+  "totalFiles": 71,
+  "groups": [
+    {
+      "groupId": 1,
+      "signature": "715fa0a75347a8637b4bb8dd3a0966c8",
+      "fileCount": 29,
+      "representative": "wx0000cbb134e718d0_SHA-1_v1_r0xbrn.js",
+      "complexity": 430,
+      "depth": 20,
+      "wrapperType": "none"
+    },
+    {
+      "groupId": 2,
+      "signature": "570a7c4e4854a1b5c3baf60dd2d7e408",
+      "fileCount": 24,
+      "representative": "wx0000cbb134e718d0_SHA-1_v2_-lm8sw.js",
+      "complexity": 733,
+      "depth": 19,
+      "wrapperType": "none"
+    },
+    {
+      "groupId": 3,
+      "signature": "aa7d5a6c1886bcd7fb1d55cb649ca641",
+      "fileCount": 18,
+      "representative": "wx0026234afda7477b_SHA-1_v3_-y9zt4.js",
+      "complexity": 36,
+      "depth": 8,
+      "wrapperType": "none"
+    }
+  ]
+}
