@@ -1,7 +1,7 @@
 {
   "success": true,
   "error": null,
-  "file": "/Users/viewv/jscry/local_tests/real-tests/script_6e637aad.js",
+  "file": "local_tests/real-tests/script_6e637aad.js",
   "results": {
     "detected_count": 12,
     "algorithms": [

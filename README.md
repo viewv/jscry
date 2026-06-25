@@ -17,7 +17,7 @@ Crawl all generated random selected sites in 8 parallel jobs:
 You can use the real case test
 
 ```bash
-node crypto-cli-tool.js /Users/viewv/jscry/local_tests/real-tests/script_6e637aad.js
+node crypto-cli-tool.js local_tests/real-tests/script_6e637aad.js
 ```
 
 Should detect algorithms: AES, SHA-1, MD5, SHA-256
