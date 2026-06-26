@@ -5,20 +5,20 @@ const traverse = require("@babel/traverse").default;
 const crypto = require("crypto");
 
 /**
- * AST Structure Matcher - 批处理版本
- * 通过批处理和持久化存储优化内存使用
+ * AST Structure Matcher - Batch processing version
+ * Optimize memory usage through batch processing and persistent storage
  */
 class ASTMatcherBatchPersistent {
   constructor() {
     this.uniqueASTDir = path.join(process.cwd(), "local_tests", "unique-ast");
     this.slicedDir = path.join(process.cwd(), "local_tests", "sliced");
 
-    // 批处理配置
+    // Batch configuration
     this.BATCH_SIZE = 100;
     this.SIMILARITY_THRESHOLD = 0.85;
     this.MAX_FILE_SIZE = 500000; // 500KB
 
-    // 持久化存储路径
+    // Persistent storage path
     this.persistentDir = path.join(this.uniqueASTDir, "persistent");
     this.representativesFile = path.join(
       this.persistentDir,
@@ -37,7 +37,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 提取AST结构特征
+   * Extract AST structure features
    */
   extractASTStructure(code) {
     const codeVariants = [
@@ -110,7 +110,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 获取包装器类型
+   * Get wrapper type
    */
   getWrapperType(originalCode, usedVariant) {
     if (usedVariant === originalCode) return "none";
@@ -125,7 +125,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 记录结构模式
+   * Record structural patterns
    */
   recordStructuralPatterns(path, structure) {
     const node = path.node;
@@ -134,7 +134,7 @@ class ASTMatcherBatchPersistent {
       return;
     }
 
-    // 函数模式
+    // Function pattern
     if (
       node.type === "FunctionDeclaration" ||
       node.type === "FunctionExpression"
@@ -143,7 +143,7 @@ class ASTMatcherBatchPersistent {
       structure.patterns.push(`func_${paramCount}params`);
     }
 
-    // 数组模式
+    // Array pattern
     if (node.type === "ArrayExpression") {
       const elementCount = node.elements ? node.elements.length : 0;
       if (elementCount > 10) {
@@ -153,34 +153,34 @@ class ASTMatcherBatchPersistent {
       }
     }
 
-    // 对象模式
+    // Object pattern
     if (node.type === "ObjectExpression") {
       const propCount = node.properties ? node.properties.length : 0;
       structure.patterns.push(`obj_${propCount}props`);
     }
 
-    // 循环模式
+    // Loop pattern
     if (node.type === "ForStatement" || node.type === "WhileStatement") {
       structure.patterns.push(`loop_${node.type}`);
     }
 
-    // 条件模式
+    // Conditional pattern
     if (node.type === "IfStatement") {
       const hasElse = node.alternate ? "else" : "noelse";
       structure.patterns.push(`if_${hasElse}`);
     }
 
-    // 二元操作模式
+    // Binary operation pattern
     if (node.type === "BinaryExpression") {
       structure.patterns.push(`binary_${node.operator}`);
     }
 
-    // 赋值操作模式
+    // Assignment operation pattern
     if (node.type === "AssignmentExpression") {
       structure.patterns.push(`assign_${node.operator}`);
     }
 
-    // 函数调用模式
+    // Call pattern
     if (node.type === "CallExpression") {
       const argCount = node.arguments ? node.arguments.length : 0;
       structure.patterns.push(`call_${argCount}args`);
@@ -188,7 +188,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 生成结构签名
+   * Generate structure signature
    */
   generateStructureSignature(structure) {
     const signatureData = {
@@ -204,7 +204,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 计算相似度
+   * Calculate similarity
    */
   calculateSimilarity(struct1, struct2) {
     if (!struct1 || !struct2) return 0;
@@ -212,7 +212,7 @@ class ASTMatcherBatchPersistent {
     let similarity = 0;
     let totalWeight = 0;
 
-    // 节点类型序列相似度 (40%)
+    // Node type sequence similarity (40%)
     const nodeTypeSimilarity = this.calculateSequenceSimilarity(
       struct1.nodeTypes,
       struct2.nodeTypes
@@ -220,7 +220,7 @@ class ASTMatcherBatchPersistent {
     similarity += nodeTypeSimilarity * 0.4;
     totalWeight += 0.4;
 
-    // 结构模式相似度 (30%)
+    // Structural pattern similarity (30%)
     const patternSimilarity = this.calculateSetSimilarity(
       struct1.patterns,
       struct2.patterns
@@ -228,7 +228,7 @@ class ASTMatcherBatchPersistent {
     similarity += patternSimilarity * 0.3;
     totalWeight += 0.3;
 
-    // 深度相似度 (15%)
+    // Depth similarity (15%)
     const depthSimilarity =
       1 -
       Math.abs(struct1.depth - struct2.depth) /
@@ -236,7 +236,7 @@ class ASTMatcherBatchPersistent {
     similarity += depthSimilarity * 0.15;
     totalWeight += 0.15;
 
-    // 复杂度相似度 (15%)
+    // Complexity similarity (15%)
     const complexitySimilarity =
       1 -
       Math.abs(struct1.complexity - struct2.complexity) /
@@ -248,7 +248,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 计算序列相似度
+   * Calculate sequence similarity
    */
   calculateSequenceSimilarity(seq1, seq2) {
     if (seq1.length === 0 && seq2.length === 0) return 1;
@@ -259,7 +259,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 计算集合相似度
+   * Calculate set similarity
    */
   calculateSetSimilarity(set1, set2) {
     const s1 = new Set(set1);
@@ -270,7 +270,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 最长公共子序列算法
+   * Longest Common Subsequence algorithm
    */
   longestCommonSubsequence(seq1, seq2) {
     const m = seq1.length;
@@ -293,7 +293,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 创建轻量级结构
+   * Create lightweight structure
    */
   createLightweightStructure(fullStructure) {
     return {
@@ -307,7 +307,7 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 保存代表性结构到磁盘
+   * Save representative structures to disk
    */
   async saveRepresentatives(representatives) {
     const lightweightReps = {};
@@ -327,16 +327,16 @@ class ASTMatcherBatchPersistent {
     );
 
     console.log(
-      `💾 已保存 ${Object.keys(lightweightReps).length} 个代表性结构到磁盘`
+      `💾 Saved ${Object.keys(lightweightReps).length} representative structures to disk`
     );
   }
 
   /**
-   * 从磁盘加载代表性结构
+   * Load representative structures from disk
    */
   async loadRepresentatives() {
     if (!fs.existsSync(this.representativesFile)) {
-      console.log("📂 未找到现有代表性结构，从头开始");
+      console.log("📂 Existing representative structures not found, starting from scratch");
       return new Map();
     }
 
@@ -355,16 +355,16 @@ class ASTMatcherBatchPersistent {
         });
       }
 
-      console.log(`📂 从磁盘加载了 ${representatives.size} 个现有代表性结构`);
+      console.log(`📂 Loaded ${representatives.size} existing representative structures from disk`);
       return representatives;
     } catch (error) {
-      console.error(`❌ 加载代表性结构失败: ${error.message}`);
+      console.error(`❌ Failed to load representative structures: ${error.message}`);
       return new Map();
     }
   }
 
   /**
-   * 保存分组信息
+   * Save grouping information
    */
   async saveGroups(algorithmName, groups) {
     const groupsData = {
@@ -385,11 +385,11 @@ class ASTMatcherBatchPersistent {
     );
 
     fs.writeFileSync(algorithmGroupsFile, JSON.stringify(groupsData, null, 2));
-    console.log(`💾 已保存 ${groups.size} 个分组信息 (${algorithmName})`);
+    console.log(`💾 Saved ${groups.size} group(s) info (${algorithmName})`);
   }
 
   /**
-   * 复制文件到分组文件夹
+   * Copy files to group folder
    */
   async copyFilesToGroup(groupDir, files) {
     const filesDir = path.join(groupDir, "files");
@@ -404,13 +404,13 @@ class ASTMatcherBatchPersistent {
         const code = fs.readFileSync(filePath, "utf8");
         fs.writeFileSync(destPath, code);
       } catch (error) {
-        console.error(`❌ 复制文件失败 ${filePath}: ${error.message}`);
+        console.error(`❌ Failed to copy file ${filePath}: ${error.message}`);
       }
     }
   }
 
   /**
-   * 保存唯一结构到文件
+   * Save unique structures to file
    */
   async saveUniqueStructuresOptimized(algorithmName, uniqueGroups) {
     const outputDir = path.join(this.uniqueASTDir, algorithmName);
@@ -422,7 +422,7 @@ class ASTMatcherBatchPersistent {
         fs.mkdirSync(groupDir, { recursive: true });
       }
 
-      // 复制代表性文件
+      // Copy representative file
       const representativeCode = fs.readFileSync(
         data.representativePath,
         "utf8"
@@ -433,10 +433,10 @@ class ASTMatcherBatchPersistent {
         representativeCode
       );
 
-      // 复制所有相似文件
+      // Copy all similar files
       await this.copyFilesToGroup(groupDir, data.files);
 
-      // 保存分组信息
+      // Save group info
       const groupInfo = {
         signature,
         fileCount: data.files.length,
@@ -462,21 +462,21 @@ class ASTMatcherBatchPersistent {
       );
 
       console.log(
-        `💾 分组 ${groupIndex} 已保存，包含 ${data.files.length} 个文件`
+        `💾 Group ${groupIndex} saved, containing ${data.files.length} files`
       );
       groupIndex++;
     }
   }
 
   /**
-   * 批处理算法核心方法
+   * Core method for batch processing algorithm
    */
   async processAlgorithmBatch(algorithmName) {
     const slicedAlgorithmDir = path.join(this.slicedDir, algorithmName);
     const uniqueAlgorithmDir = path.join(this.uniqueASTDir, algorithmName);
 
     if (!fs.existsSync(slicedAlgorithmDir)) {
-      console.error(`切片目录不存在: ${slicedAlgorithmDir}`);
+      console.error(`Sliced directory does not exist: ${slicedAlgorithmDir}`);
       return;
     }
 
@@ -484,20 +484,20 @@ class ASTMatcherBatchPersistent {
       fs.mkdirSync(uniqueAlgorithmDir, { recursive: true });
     }
 
-    // 获取所有文件
+    // Get all files
     const allFiles = fs
       .readdirSync(slicedAlgorithmDir)
       .filter((file) => file.endsWith(".js"))
       .map((file) => path.join(slicedAlgorithmDir, file));
 
-    console.log(`🔍 开始批处理 ${algorithmName}，共 ${allFiles.length} 个文件`);
-    console.log(`📦 批处理大小: ${this.BATCH_SIZE}`);
+    console.log(`🔍 Starting batch processing for ${algorithmName}, total ${allFiles.length} files`);
+    console.log(`📦 Batch size: ${this.BATCH_SIZE}`);
 
-    // 加载已有的代表性结构
+    // Load existing representative structures
     let representatives = await this.loadRepresentatives();
     const uniqueGroups = new Map();
 
-    // 初始化已有组
+    // Initialize existing groups
     for (const [signature, repData] of representatives) {
       uniqueGroups.set(signature, {
         representativePath: repData.representativePath,
@@ -510,42 +510,42 @@ class ASTMatcherBatchPersistent {
     let processedFiles = 0;
     let newUniqueCount = 0;
 
-    // 分批处理文件
+    // Process files in batches
     for (let batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
       const batchStart = batchIndex * this.BATCH_SIZE;
       const batchEnd = Math.min(batchStart + this.BATCH_SIZE, allFiles.length);
       const currentBatch = allFiles.slice(batchStart, batchEnd);
 
       console.log(
-        `\n📦 处理批次 ${batchIndex + 1}/${totalBatches} (${currentBatch.length} 个文件)`
+        `\n📦 Processing batch ${batchIndex + 1}/${totalBatches} (${currentBatch.length} files)`
       );
 
-      // 处理当前批次
+      // Process current batch
       for (const filePath of currentBatch) {
         try {
           const code = fs.readFileSync(filePath, "utf8");
 
-          // 跳过过大文件
+          // Skip excessively large files
           if (code.length > this.MAX_FILE_SIZE) {
-            console.log(`⚠️ 跳过大文件: ${path.basename(filePath)}`);
+            console.log(`⚠️ Skipping large file: ${path.basename(filePath)}`);
             continue;
           }
 
           const structure = this.extractASTStructure(code);
           if (!structure) {
-            console.warn(`⚠️ 跳过无法解析的文件: ${path.basename(filePath)}`);
+            console.warn(`⚠️ Skipping unparseable file: ${path.basename(filePath)}`);
             continue;
           }
 
           const signature = structure.signature;
           let foundMatch = false;
 
-          // 检查完全相同的签名
+          // Check for identical signatures
           if (uniqueGroups.has(signature)) {
             uniqueGroups.get(signature).files.push(filePath);
             foundMatch = true;
           } else {
-            // 与已有代表性结构比较相似度
+            // Compare similarity with existing representative structures
             for (const [existingSignature, groupData] of uniqueGroups) {
               const similarity = this.calculateSimilarity(
                 this.createLightweightStructure(structure),
@@ -556,14 +556,14 @@ class ASTMatcherBatchPersistent {
                 groupData.files.push(filePath);
                 foundMatch = true;
                 console.log(
-                  `📎 ${path.basename(filePath)} 匹配现有组 (${(similarity * 100).toFixed(1)}%)`
+                  `📎 ${path.basename(filePath)} matches existing group (${(similarity * 100).toFixed(1)}%)`
                 );
                 break;
               }
             }
           }
 
-          // 如果没有找到匹配，创建新组
+          // If no match is found, create a new group
           if (!foundMatch) {
             const lightweightStructure =
               this.createLightweightStructure(structure);
@@ -573,7 +573,7 @@ class ASTMatcherBatchPersistent {
               structure: lightweightStructure,
             });
 
-            // 更新代表性结构映射
+            // Update representative structures mapping
             representatives.set(signature, {
               representativePath: filePath,
               structure: lightweightStructure,
@@ -581,46 +581,46 @@ class ASTMatcherBatchPersistent {
             });
 
             newUniqueCount++;
-            console.log(`✨ 新的唯一结构: ${path.basename(filePath)}`);
+            console.log(`✨ New unique structure: ${path.basename(filePath)}`);
           }
 
           processedFiles++;
         } catch (error) {
-          console.error(`❌ 处理文件失败 ${filePath}: ${error.message}`);
+          console.error(`❌ Failed to process file ${filePath}: ${error.message}`);
         }
       }
 
-      // 每批处理完后保存进度
+      // Save progress after processing each batch
       await this.saveRepresentatives(representatives);
 
-      // 强制垃圾回收
+      // Force garbage collection
       if (global.gc) {
         global.gc();
       }
 
       console.log(
-        `✅ 批次 ${batchIndex + 1} 完成。进度: ${processedFiles}/${allFiles.length} (${uniqueGroups.size} 个唯一结构)`
+        `✅ Batch ${batchIndex + 1} complete. Progress: ${processedFiles}/${allFiles.length} (${uniqueGroups.size} unique structures)`
       );
     }
 
-    // 更新文件计数
+    // Update file counts
     for (const [signature, groupData] of uniqueGroups) {
       if (representatives.has(signature)) {
         representatives.get(signature).fileCount = groupData.files.length;
       }
     }
 
-    // 保存最终结果
+    // Save final results
     await this.saveRepresentatives(representatives);
     await this.saveGroups(algorithmName, uniqueGroups);
     await this.saveUniqueStructuresOptimized(algorithmName, uniqueGroups);
 
-    console.log(`\n🎉 ${algorithmName} 批处理完成:`);
-    console.log(`   📁 总文件数: ${allFiles.length}`);
-    console.log(`   ✅ 成功处理: ${processedFiles}`);
-    console.log(`   🔍 唯一结构总数: ${uniqueGroups.size}`);
-    console.log(`   ✨ 本次新发现: ${newUniqueCount}`);
-    console.log(`   📦 处理批次: ${totalBatches}`);
+    console.log(`\n🎉 ${algorithmName} batch processing complete:`);
+    console.log(`   📁 Total files: ${allFiles.length}`);
+    console.log(`   ✅ Successfully processed: ${processedFiles}`);
+    console.log(`   🔍 Total unique structures: ${uniqueGroups.size}`);
+    console.log(`   ✨ Newly discovered this time: ${newUniqueCount}`);
+    console.log(`   📦 Processed batches: ${totalBatches}`);
 
     return {
       algorithm: algorithmName,
@@ -633,20 +633,20 @@ class ASTMatcherBatchPersistent {
   }
 
   /**
-   * 清理持久化数据
+   * Clear persistent data
    */
   async clearPersistentData() {
     const files = [this.representativesFile];
     for (const file of files) {
       if (fs.existsSync(file)) {
         fs.unlinkSync(file);
-        console.log(`🗑️ 已清理 ${file}`);
+        console.log(`🗑️ Cleaned up ${file}`);
       }
     }
   }
 }
 
-// 主执行逻辑
+// Main execution logic
 if (require.main === module) {
   const matcher = new ASTMatcherBatchPersistent();
 
@@ -655,7 +655,7 @@ if (require.main === module) {
     const algorithm = args[0];
     matcher.processAlgorithmBatch(algorithm).catch(console.error);
   } else {
-    console.log("请指定算法名称，例如: node ast_match.js AES");
+    console.log("Please specify the algorithm name, e.g.: node ast_match.js AES");
   }
 }
 

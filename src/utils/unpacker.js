@@ -3,9 +3,9 @@ const path = require('path');
 const fs = require('fs');
 
 /**
- * 使用 webcrack 解包 Webpack/Rollup Bundle 文件
- * @param {string} filePath - 输入的 JS Bundle 文件路径
- * @param {string} outputDir - 输出目录
+ * Use webcrack to unpack Webpack/Rollup Bundle files
+ * @param {string} filePath - Input JS Bundle file path
+ * @param {string} outputDir - Output directory
  * @returns {Promise<{success: boolean, outputDir: string, error: string|null}>}
  */
 function unpackBundle(filePath, outputDir) {
@@ -13,21 +13,21 @@ function unpackBundle(filePath, outputDir) {
         const absoluteFilePath = path.resolve(filePath);
         const absoluteOutputDir = path.resolve(outputDir);
 
-        console.log(`[unpacker] 开始解包: ${absoluteFilePath}`);
-        console.log(`[unpacker] 输出目录: ${absoluteOutputDir}`);
+        console.log(`[unpacker] Start unpacking: ${absoluteFilePath}`);
+        console.log(`[unpacker] Output directory: ${absoluteOutputDir}`);
 
-        // 确保输出目录存在
+        // Ensure output directory exists
         if (!fs.existsSync(absoluteOutputDir)) {
             fs.mkdirSync(absoluteOutputDir, { recursive: true });
         }
 
-        // 构建命令
-        // -f 表示如果输出目录已存在则强制覆盖
+        // Build command
+        // -f means force overwrite if the output directory already exists
         const cmd = `npx -y webcrack -o "${absoluteOutputDir}" -f "${absoluteFilePath}"`;
 
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
-                console.error(`[unpacker] 解包失败: ${error.message}`);
+                console.error(`[unpacker] Unpacking failed: ${error.message}`);
                 console.error(`[unpacker] stderr: ${stderr}`);
                 return resolve({
                     success: false,
@@ -36,7 +36,7 @@ function unpackBundle(filePath, outputDir) {
                 });
             }
 
-            console.log(`[unpacker] 解包成功!`);
+            console.log(`[unpacker] Unpacking successful!`);
             if (stdout) console.log(`[unpacker] stdout: ${stdout}`);
 
             resolve({
@@ -52,7 +52,7 @@ module.exports = {
     unpackBundle
 };
 
-// 示例用法: node src/utils/unpacker.js <filePath> [outputDir]
+// Example usage: node src/utils/unpacker.js <filePath> [outputDir]
 if (require.main === module) {
     const args = process.argv.slice(2);
     if (args.length === 0) {

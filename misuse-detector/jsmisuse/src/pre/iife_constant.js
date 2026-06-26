@@ -15,10 +15,10 @@ const beautify = require('js-beautify').js;
 
 function shouldSkipFunctionAnalysis(functionPath) {
     try {
-        // 生成函数代码
+        // Generate function code
         const functionCode = generate(functionPath.node).code;
 
-        // 使用js-beautify格式化代码
+        // Use js-beautify to format code
         const formattedCode = beautify(functionCode, {
             indent_size: 2,
             space_in_empty_paren: true,
@@ -27,7 +27,7 @@ function shouldSkipFunctionAnalysis(functionPath) {
             max_preserve_newlines: 2
         });
 
-        // 计算格式化后的行数
+        // Calculate line count after formatting
         const lineCount = formattedCode.split('\n').length;
 
         if (lineCount > MAX_LINES_FOR_DYNAMIC_ANALYSIS || lineCount < MIN_LINES_FOR_DYNAMIC_ANALYSIS) {
@@ -56,7 +56,7 @@ function shouldSkipFunctionAnalysis(functionPath) {
 }
 
 
-// 创建 Babel 插件来转换 AST
+// Create Babel plugin to transform AST
 function createVariableTrackerPlugin() {
     return {
         visitor: {
@@ -93,7 +93,7 @@ function createVariableTrackerPlugin() {
                     );
                     ensureTrace._generatedByTracePlugin = true;
 
-                    // 插入到父级语句之后
+                    // Insert after the parent statement
                     const statement = path.findParent(p => p.isStatement());
                     if (statement) {
                         statement.insertAfter([ensureTrace, traceCode]);
@@ -149,13 +149,13 @@ function extractArrayValueDynamically(arrayExpression, code) {
     let arrayCode = 'unknown'; // 在外部声明并初始化默认值
 
     try {
-        // 提取数组表达式的代码片段
+        // Extract the code snippet of the array expression
         arrayCode = code.slice(arrayExpression.start, arrayExpression.end);
 
-        // 创建一个安全的执行环境
+        // Create a safe execution environment
         const vm = require('vm');
         const sandbox = {
-            // 添加一些基本的全局对象，防止执行出错
+            // Add some basic global objects to prevent execution errors
             Math: Math,
             parseInt: parseInt,
             parseFloat: parseFloat,
@@ -168,10 +168,10 @@ function extractArrayValueDynamically(arrayExpression, code) {
 
         const context = vm.createContext(sandbox);
 
-        // 动态执行数组表达式
+        // Dynamically execute the array expression
         const result = vm.runInContext(arrayCode, context, { timeout: 100 });
 
-        // 验证结果是否为数组
+        // Verify if the result is an array
         if (Array.isArray(result)) {
             return {
                 success: true,
@@ -217,23 +217,23 @@ function extractConstantValue(code) {
                 const id = declaration.id;
                 const init = declaration.init;
 
-                // 对所有有初始化值的变量声明都尝试动态分析
+                // Attempt dynamic analysis on all variable declarations with initialization values
                 if (init && id.type === "Identifier") {
                     let extractResult;
 
-                    // 根据不同的初始化类型选择合适的提取方法
+                    // Choose appropriate extraction method based on different initialization types
                     if (init.type === "ArrayExpression") {
-                        // 原有的数组字面量处理
+                        // Original array literal handling
                         extractResult = extractArrayValueDynamically(init, code);
                     } else if (init.type === "NewExpression" &&
                         init.callee.type === "Identifier" &&
                         init.callee.name === "Array") {
-                        // new Array() 构造函数
+                        // new Array() constructor
                         extractResult = extractArrayValueDynamically(init, code);
                     } else if (init.type === "CallExpression" &&
                         init.callee.type === "Identifier" &&
                         init.callee.name === "Array") {
-                        // Array() 函数调用
+                        // Array() function call
                         extractResult = extractArrayValueDynamically(init, code);
                     } else {
                         extractResult = extractArrayValueDynamically(init, code);
@@ -256,7 +256,7 @@ function extractConstantValue(code) {
                         constantValueMap[id.name].push({
                             value: extractResult.value,
                             position: position,
-                            type: init.type // 记录原始类型便于调试
+                            type: init.type // Record original type for debugging
                         });
                     }
                 }
@@ -440,7 +440,7 @@ function extractConstantValue(code) {
 
                     // Construct the sandbox code and recursively find outside dependence from outside variables add into sandbox
                     const sandbox = {
-                        // 添加一些基本的全局对象，防止执行出错
+                        // Add some basic global objects to prevent execution errors
                         Math: Math,
                         parseInt: parseInt,
                         parseFloat: parseFloat,
@@ -551,10 +551,10 @@ function extractConstantValue(code) {
                     try {
                         let iifeCode;
                         if (path.parent && path.parent.type === 'ExpressionStatement') {
-                            // 如果IIFE是一个表达式语句，提取整个表达式
+                            // If the IIFE is an expression statement, extract the entire expression
                             iifeCode = code.slice(path.parent.start, path.parent.end);
                         } else {
-                            // 否则，确保包装为表达式
+                            // Otherwise, ensure it is wrapped as an expression
                             const callCode = code.slice(path.node.start, path.node.end);
                             iifeCode = `(${callCode})`;
                         }
@@ -574,7 +574,7 @@ function extractConstantValue(code) {
                         // const result = vm.runInContext(iifeCode, context);
                         const result = vm.runInContext(transformedCode, context, { timeout: 100 });
 
-                        // 收集返回值
+                        // Collect return value
                         if (result !== undefined) {
                             const returnVarName = `__iife_return_${node.loc.start.line}_${node.loc.start.column}`;
                             if (constantValueMap[returnVarName] === undefined) {
@@ -722,7 +722,7 @@ function extractConstantValue(code) {
                     });
 
                     const sandbox = {
-                        // 添加一些基本的全局对象，防止执行出错
+                        // Add some basic global objects to prevent execution errors
                         Math: Math,
                         parseInt: parseInt,
                         parseFloat: parseFloat,
@@ -740,36 +740,36 @@ function extractConstantValue(code) {
                         const programPath = currentScope.getProgramParent().path;
 
                         programPath.traverse({
-                            // 查找对象属性定义
+                            // Find object property definitions
                             ObjectProperty(path) {
                                 const key = path.node.key;
                                 if ((key.type === "Identifier" && key.name === varName) ||
                                     (key.type === "Literal" && key.value === varName)) {
 
-                                    // 位置检查：只包含在目标函数之前的定义
+                                    // Position check: only include definitions before the target function
                                     if (path.node.start < targetFunctionStart) {
-                                        // 直接返回属性值，而不是整个语句
+                                        // Directly return property value, not the entire statement
                                         const propertyValue = path.node.value;
                                         declarations.push({
                                             type: "property",
-                                            node: propertyValue,  // 只返回值节点
-                                            code: code.slice(propertyValue.start, propertyValue.end),  // 只提取值的代码
+                                            node: propertyValue,  // Return value node only
+                                            code: code.slice(propertyValue.start, propertyValue.end),  // Extract code of value only
                                             position: path.node.start
                                         });
                                     }
                                 }
                             },
 
-                            // 查找变量声明
+                            // Find variable declarations
                             VariableDeclarator(path) {
                                 if (path.node.id.type === "Identifier" && path.node.id.name === varName) {
                                     if (path.node.start < targetFunctionStart) {
-                                        // 对于变量声明，返回初始化值
+                                        // For variable declarations, return initial value
                                         const initValue = path.node.init;
                                         if (initValue) {
                                             declarations.push({
                                                 type: "declaration",
-                                                node: initValue,  // 返回初始化值节点
+                                                node: initValue,  // Return initial value node
                                                 code: code.slice(initValue.start, initValue.end),
                                                 position: path.node.start
                                             });
@@ -778,16 +778,16 @@ function extractConstantValue(code) {
                                 }
                             },
 
-                            // 查找赋值表达式
+                            // Find assignment expressions
                             AssignmentExpression(path) {
                                 const left = path.node.left;
                                 if (left.type === "Identifier" && left.name === varName) {
                                     if (path.node.start < targetFunctionStart) {
-                                        // 对于赋值，返回右侧值
+                                        // For assignments, return the right-hand value
                                         const rightValue = path.node.right;
                                         declarations.push({
                                             type: "assignment",
-                                            node: rightValue,  // 返回赋值的右侧值
+                                            node: rightValue,  // Return the right-hand value of the assignment
                                             code: code.slice(rightValue.start, rightValue.end),
                                             position: path.node.start
                                         });
@@ -818,7 +818,7 @@ function extractConstantValue(code) {
                             functionNode  // 传递目标函数节点
                         );
                         if (declarations.length > 0) {
-                            // 只使用第一个声明（最深层的）
+                            // Only use the first declaration (the deepest one)
                             const decl = declarations[0];
                             try {
                                 const declarationCode = `${varName} = ${decl.code.trim()};`;
@@ -849,7 +849,7 @@ function extractConstantValue(code) {
 
                         const result = vm.runInContext(transformedCode, context, { timeout: 100 });
 
-                        // 收集返回值
+                        // Collect return value
                         if (result !== undefined) {
                             const returnVarName = `__function_return_${node.loc.start.line}_${node.loc.start.column}`;
                             if (constantValueMap[returnVarName] === undefined) {
@@ -951,7 +951,7 @@ function extractConstantValue(code) {
 
         for (const entry of entries) {
             if (entry.value && typeof entry.value === 'object' && !Array.isArray(entry.value)) {
-                // 安全递归函数
+                // Safe recursive function
                 function extractArraysFromObject(obj, prefix, visited = new Set(), depth = 0, maxDepth = 10) {
                     if (depth > maxDepth || !obj || typeof obj !== 'object') return;
                     if (visited.has(obj)) return;

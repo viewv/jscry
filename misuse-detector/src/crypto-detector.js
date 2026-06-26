@@ -26,11 +26,11 @@ class CryptoDetector {
       // },
 
       webCryptoAPI: {
-        // 匹配 crypto.subtle.xxx 或 SubtleCrypto.xxx 的使用
+        // Match usage of crypto.subtle.xxx or SubtleCrypto.xxx
         usage:
           /\b(?:crypto(?:\.subtle)?|SubtleCrypto|window\.crypto|navigator\.crypto)\.(?:encrypt|decrypt|sign|verify|digest|generateKey|deriveKey|importKey|exportKey|wrapKey|unwrapKey)\b/g,
 
-        // 匹配方法调用（防止仅定义名称时误判）
+        // Match method calls (prevent misidentification when only names are defined)
         methods:
           /\b(?:encrypt|decrypt|sign|verify|digest|generateKey|deriveKey|importKey|exportKey|wrapKey|unwrapKey)\s*\(/g,
       },
@@ -57,10 +57,9 @@ class CryptoDetector {
           /CryptoJS\.(?:AES|DES|TripleDES|Rabbit|RC4|MD5|SHA1|SHA256|SHA512|PBKDF2|HmacSHA1|HmacSHA256|HmacMD5)/g,
       },
 
-      // Common crypto algorithms by pattern detection
-      // 修改 patterns 中的 algorithms 部分:
+      // Modify algorithms section in patterns:
       algorithms: {
-        // MD5 只检测特征常量
+        // MD5 only detects characteristic constants
         md5: {
           constants: [
             /[h_](?:[0-3]|[a-d])\s*[=:]\s*(?:0x67452301|67452301)/i,
@@ -69,62 +68,62 @@ class CryptoDetector {
             /[h_](?:[0-3]|[a-d])\s*[=:]\s*(?:0x10325476|10325476)/i,
           ],
           patterns: [],
-          matchRule: 2, // 只需要匹配前2个常量
+          matchRule: 2, // Only need to match the first 2 constants
         },
 
         sha: {
           constants: [
-            // 初始化常量
+            // Initialization constants
             /[h_](?:[0-4]|[a-e])\s*[=:]\s*(?:0x67452301|67452301)/i,
             /[h_](?:[0-4]|[a-e])\s*[=:]\s*(?:0xEFCDAB89|EFCDAB89)/i,
             /[h_](?:[0-4]|[a-e])\s*[=:]\s*(?:0x98BADCFE|98BADCFE)/i,
             /[h_](?:[0-4]|[a-e])\s*[=:]\s*(?:0x10325476|10325476)/i,
             /[h_](?:[0-4]|[a-e])\s*[=:]\s*(?:0xC3D2E1F0|C3D2E1F0)/i,
-            // K常量
+            // K constants
             /0x5[aA]827999|1518500249/,
             /0x6[eE][dD]9[eE][bB][aA]1|1859775393/,
             /0x8[fF]1[bB][bB][cC][dD][cC]|2400959708/,
             /0x[cC][aA]62[cC]1[dD]6|3395469782/,
           ],
           patterns: [],
-          // 要求匹配至少6个常量(包括初始化常量和 K常量)
+          // Requires matching at least 6 constants (including initialization constants and K constants)
           matchRule: 6,
         },
 
-        // SHA1 只检测特征常量
+        // SHA1 only detects characteristic constants
         sha1: {
           constants: [
-            // 检测初始化魔数（十进制形式）
+            // Detect initialization magic numbers (decimal format)
             /1732584193|4023233417|2562383102|271733878|3285377520/,
 
-            // 检测初始化魔数（十六进制形式）
+            // Detect initialization magic numbers (hexadecimal format)
             /0x67452301|0xEFCDAB89|0x98BADCFE|0x10325476|0xC3D2E1F0/,
 
-            // // 检测特征常量
+            // // Detect characteristic constants
             // /4294967295/,
           ],
           patterns: [],
         },
 
-        // AES 只检测 S-box
+        // AES only detects S-box
         aes: {
           constants: [
-            // 匹配 S-box 的前几个数字(支持0x前缀和不带前缀两种形式)
+            // Match the first few numbers of S-box (supports both 0x prefix and prefix-less formats)
             /(?:0x63|99)\s*,\s*(?:0x7[cC]|124)\s*,\s*(?:0x77|119)\s*,\s*(?:0x7[bB]|123)/,
-            // 匹配逆 S-box 的前几个数字
+            // Match the first few numbers of inverse S-box
             /(?:0x52|82)\s*,\s*(?:0x09|9)\s*,\s*(?:0x6[aA]|106)\s*,\s*(?:0xD5|213)/,
-            // 匹配 RCON 变量定义
+            // Match RCON variable definitions
             /(?:0x01|1)\s*,\s*(?:0x02|2)\s*,\s*(?:0x04|4)\s*,\s*(?:0x08|8)\s*,\s*(?:0x10|16)/,
           ],
           patterns: [],
         },
 
-        // DES 只检测置换表
+        // DES only detects permutation tables
         des: {
           constants: [
-            // 初始置换IP表的开头
+            // The beginning of the initial permutation IP table
             /(?:58|0x3A)\s*,\s*(?:50|0x32)\s*,\s*(?:42|0x2A)\s*,\s*(?:34|0x22)/,
-            // S盒的部分特征值
+            // Partial characteristic values of S-box
             /(?:14|0x0E)\s*,\s*(?:4|0x04)\s*,\s*(?:13|0x0D)\s*,\s*(?:1|0x01)/,
           ],
           patterns: [],
@@ -147,21 +146,21 @@ class CryptoDetector {
       potentialMisuses: [],
     };
 
-    // 检查算法实现
+    // Check algorithm implementation
     this._detectCryptoAlgorithms(content, result);
 
-    // 如果检测到加密算法，保存代码到文件
+    // If cryptographic algorithms are detected, save code to file
     if (result.hasCrypto) {
       try {
-        // 创建输出目录
+        // Create output directory
         const scriptDir = path.join(
           this.options.outputDir,
           result.detectedAlgorithms.join("_")
         );
         await fs.mkdir(scriptDir, { recursive: true });
 
-        // 生成文件名 - 限制长度以避免 ENAMETOOLONG 错误
-        // 使用 scriptId 的哈希值而不是完整的 scriptId
+        // Generate filename - limit length to avoid ENAMETOOLONG errors
+        // Use hash of scriptId instead of the full scriptId
         const hash = require("crypto")
           .createHash("md5")
           .update(scriptId)
@@ -170,10 +169,10 @@ class CryptoDetector {
         const fileName = `script_${hash}.js`;
         const filePath = path.join(scriptDir, fileName);
 
-        // 保存代码到文件
+        // Save code to file
         await fs.writeFile(filePath, content);
 
-        // 创建元数据文件，记录原始 scriptId
+        // Create metadata file, record the original scriptId
         const metaFilePath = path.join(scriptDir, `script_${hash}_meta.json`);
         await fs.writeFile(
           metaFilePath,
@@ -188,7 +187,7 @@ class CryptoDetector {
           )
         );
 
-        // 添加文件路径到结果中
+        // Add file path to results
         result.savedPath = filePath;
       } catch (error) {
         console.error(`Error saving script ${scriptId}:`, error);
@@ -253,10 +252,10 @@ class CryptoDetector {
    * @private
    */
   _checkAlgorithmPatterns(content, algorithmPatterns) {
-    // 如果定义了matchRule(表示需要匹配的常量数量)
+    // If matchRule is defined (indicating the number of constants to match)
     if (algorithmPatterns.matchRule) {
       let matchCount = 0;
-      // 只检查前matchRule个常量
+      // Only check the first matchRule constants
       for (let i = 0; i < algorithmPatterns.matchRule; i++) {
         const pattern = algorithmPatterns.constants[i];
         pattern.lastIndex = 0;
@@ -264,11 +263,11 @@ class CryptoDetector {
           matchCount++;
         }
       }
-      // 返回是否达到需要匹配的数量
+      // Return whether the required match count is reached
       return matchCount === algorithmPatterns.matchRule;
     }
 
-    // 对于其他算法,保持原有逻辑
+    // Keep original logic for other algorithms
     return algorithmPatterns.constants.some((pattern) => {
       pattern.lastIndex = 0;
       return pattern.test(content);
@@ -377,8 +376,8 @@ class CryptoDetector {
   }
 
   /**
-   * 获取检测到的算法统计信息
-   * @returns {Object} 算法统计信息
+   * Get detected algorithm statistics
+   * @returns {Object} Algorithm statistics
    */
   getAlgorithmStats() {
     const stats = {};

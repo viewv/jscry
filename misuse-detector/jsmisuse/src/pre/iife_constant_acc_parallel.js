@@ -42,7 +42,7 @@ class ParallelDynamicAnalyzer {
     performStaticAnalysis(ast, code) {
         const self = this;
 
-        // 第一个traverse：处理VariableDeclaration
+        // First traverse: handle VariableDeclaration
         traverse(ast, {
             VariableDeclaration(path) {
                 const node = path.node;
@@ -79,7 +79,7 @@ class ParallelDynamicAnalyzer {
             }
         });
 
-        // 第二个traverse：处理ObjectExpression
+        // Second traverse: handle ObjectExpression
         traverse(ast, {
             ObjectExpression(path) {
                 const node = path.node;
@@ -117,7 +117,7 @@ class ParallelDynamicAnalyzer {
             }
         });
 
-        // 第三个traverse：处理ExpressionStatement
+        // Third traverse: handle ExpressionStatement
         traverse(ast, {
             ExpressionStatement(path) {
                 const node = path.node;
@@ -307,7 +307,7 @@ class ParallelDynamicAnalyzer {
         const programPath = currentScope.getProgramParent().path;
 
         programPath.traverse({
-            // 查找对象属性定义
+            // Find object property definitions
             ObjectProperty(path) {
                 const key = path.node.key;
                 if ((key.type === "Identifier" && key.name === varName) ||
@@ -325,7 +325,7 @@ class ParallelDynamicAnalyzer {
                 }
             },
 
-            // 查找变量声明
+            // Find variable declarations
             VariableDeclarator(path) {
                 if (path.node.id.type === "Identifier" && path.node.id.name === varName) {
                     if (path.node.start < targetFunctionStart) {
@@ -342,7 +342,7 @@ class ParallelDynamicAnalyzer {
                 }
             },
 
-            // 查找赋值表达式
+            // Find assignment expressions
             AssignmentExpression(path) {
                 const left = path.node.left;
                 if (left.type === "Identifier" && left.name === varName) {
@@ -359,7 +359,7 @@ class ParallelDynamicAnalyzer {
             }
         });
 
-        // 按位置排序，返回最新的定义
+        // Sort by position, return the latest definition
         declarations.sort((a, b) => b.position - a.position);
         return declarations;
     }

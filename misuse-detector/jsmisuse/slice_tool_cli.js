@@ -57,7 +57,7 @@ async function analyzeFile(filePath) {
     const codeHash = crypto.createHash("sha256").update(codepath).digest("hex");
     const temp_reportPath = path.join(TMP_REPORT_FILEPATH, `${codeHash}.json`);
 
-    // 4. 顺序执行分析命令
+    // 4. Execute analysis commands sequentially
     const command = `node ./crypto-cli-tool-static.js ${codepath} ${temp_reportPath}`;
 
     try {
@@ -99,15 +99,15 @@ async function analyzeFile(filePath) {
             );
             const slice_result = findContainingFunction(code, offset);
             if (slice_result) {
-              console.log("\n=== 切片结果 ===");
-              console.log("函数类型:", slice_result.type);
-              console.log("函数名称:", slice_result.name);
-              console.log("位置范围:", slice_result.range);
+              console.log("\n=== Slicing Result ===");
+              console.log("Function type:", slice_result.type);
+              console.log("Function name:", slice_result.name);
+              console.log("Position range:", slice_result.range);
               console.log(
-                "行号范围:",
+                "Line number range:",
                 `${slice_result.loc.start.line}-${slice_result.loc.end.line}`
               );
-              // console.log("\n=== 切片代码 ===");
+              // console.log("\n=== Slicing Code ===");
               // console.log(slice_result.code);
               const sliceCode = slice_result.code;
               // check the hash of the sliced code first, if it is the same as the previous one, skip saving
@@ -127,7 +127,7 @@ async function analyzeFile(filePath) {
               // second use the codeHash_algorithm_resultCount.js to save the sliced code
               const outputFileName = `${codeHash}_${algorithm}_${resultCount}.js`;
               const outputFilePath = path.join(algorithmDir, outputFileName);
-              // first inser the original code path and slice location as comments into the sliced code
+              // first insert the original code path and slice location as comments into the sliced code
               const originalCodePathComment = `// Original code path: ${codepath}\n`;
               const sliceLocationComment = `// Slice location: ${JSON.stringify(position)}\n`;
               slice_result.code =
@@ -165,7 +165,7 @@ async function analyzeFile(filePath) {
 }
 
 function main() {
-  // 获取命令行参数
+  // Get command line arguments
   const args = process.argv.slice(2);
 
   if (args.length === 0) {
@@ -185,11 +185,11 @@ function main() {
 
   const inputFilePath = args[0];
 
-  // 分析文件
+  // Analyze file
   analyzeFile(inputFilePath);
 }
 
-// 运行主函数
+// Run main function
 if (require.main === module) {
   main();
 }

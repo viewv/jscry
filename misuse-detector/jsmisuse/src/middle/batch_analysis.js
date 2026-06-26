@@ -3,7 +3,7 @@ const path = require('path');
 const { findContainingFunction } = require('./slice_code');
 
 /**
- * 批量分析工具 - 流式处理版本，避免内存溢出
+ * Batch analysis tool - stream processing version, avoiding memory overflow
  */
 class BatchAnalyzer {
     constructor() {
@@ -19,29 +19,29 @@ class BatchAnalyzer {
     }
 
     /**
-     * 确保输出目录存在
+     * Ensure output directory exists
      */
     ensureOutputDir() {
         if (!fs.existsSync(this.outputDir)) {
             fs.mkdirSync(this.outputDir, { recursive: true });
-            console.log(`创建输出目录: ${this.outputDir}`);
+            console.log(`Creating output directory: ${this.outputDir}`);
         }
     }
 
     /**
-     * 确保算法目录存在
+     * Ensure algorithm directory exists
      */
     ensureAlgorithmDir(algorithm) {
         const algorithmDir = path.join(this.outputDir, algorithm);
         if (!fs.existsSync(algorithmDir)) {
             fs.mkdirSync(algorithmDir, { recursive: true });
-            console.log(`创建算法目录: ${algorithmDir}`);
+            console.log(`Creating algorithm directory: ${algorithmDir}`);
         }
         return algorithmDir;
     }
 
     /**
-     * 获取所有app_id文件夹
+     * Get all app_id folders
      */
     getAppIdFolders() {
         try {
@@ -50,35 +50,35 @@ class BatchAnalyzer {
                 .map(dirent => dirent.name)
                 .filter(name => name.startsWith('wx'));
 
-            console.log(`找到 ${folders.length} 个app_id文件夹`);
+            console.log(`Found ${folders.length} app_id folders`);
             return folders;
         } catch (error) {
-            console.error(`读取tmp目录失败: ${error.message}`);
+            console.error(`Failed to read tmp directory: ${error.message}`);
             return [];
         }
     }
 
     /**
-     * 读取final_analysis.json文件
+     * Read final_analysis.json file
      */
     readFinalAnalysis(appId) {
         const analysisPath = path.join(this.tmpDir, appId, 'final_analysis.json');
         try {
             if (!fs.existsSync(analysisPath)) {
-                console.warn(`文件不存在: ${analysisPath}`);
+                console.warn(`File does not exist: ${analysisPath}`);
                 return null;
             }
 
             const content = fs.readFileSync(analysisPath, 'utf8');
             return JSON.parse(content);
         } catch (error) {
-            console.error(`读取分析文件失败 ${appId}: ${error.message}`);
+            console.error(`Failed to read analysis file for ${appId}: ${error.message}`);
             return null;
         }
     }
 
     /**
-     * 立即保存单个切片结果
+     * Save a single slice result immediately
      */
     saveSliceImmediately(algorithm, appId, sliceIndex, sliceData) {
         const algorithmDir = this.ensureAlgorithmDir(algorithm);
@@ -105,9 +105,9 @@ class BatchAnalyzer {
         };
 
         fs.writeFileSync(outputPath, JSON.stringify(sliceFile, null, 2));
-        console.log(`✅ 保存切片: ${fileName}`);
+        console.log(`✅ Slice saved: ${fileName}`);
 
-        // 更新统计信息
+        // Update stats
         this.stats.totalSlices++;
         this.stats.algorithms.add(algorithm);
         if (!this.stats.algorithmStats[algorithm]) {
@@ -120,12 +120,12 @@ class BatchAnalyzer {
     }
 
     /**
-     * 处理单个文件的代码切片 - 流式处理
+     * Process code slicing of a single file - stream processing
      */
     async processFileSlicingStream(filePath, detectionResults, algorithm, appId) {
         try {
             if (!fs.existsSync(filePath)) {
-                console.warn(`源文件不存在: ${filePath}`);
+                console.warn(`Source file does not exist: ${filePath}`);
                 return [];
             }
 
@@ -135,7 +135,7 @@ class BatchAnalyzer {
 
             for (const detection of detectionResults) {
                 try {
-                    // 将行列位置转换为字符偏移
+                    // Convert row/column positions to character offsets
                     const lines = code.split('\n');
                     let startOffset = 0;
 
@@ -155,7 +155,7 @@ class BatchAnalyzer {
                         end: endOffset
                     };
 
-                    // 使用代码切片工具
+                    // Use code slicing tool
                     const sliceResult = findContainingFunction(code, position);
 
                     if (sliceResult) {
@@ -172,34 +172,34 @@ class BatchAnalyzer {
                             }
                         };
 
-                        // 立即保存切片
+                        // Save slice immediately
                         const fileName = this.saveSliceImmediately(algorithm, appId, sliceIndex, sliceData);
                         savedFiles.push(fileName);
                         sliceIndex++;
 
-                        console.log(`✅ 成功切片 ${algorithm} - ${appId}: ${detection.type}`);
+                        console.log(`✅ Sliced successfully ${algorithm} - ${appId}: ${detection.type}`);
                     } else {
-                        console.warn(`⚠️  切片失败 ${algorithm} - ${appId}: ${detection.type}`);
+                        console.warn(`⚠️  Slicing failed ${algorithm} - ${appId}: ${detection.type}`);
                     }
                 } catch (error) {
-                    console.error(`处理检测结果失败: ${error.message}`);
+                    console.error(`Failed to process detection result: ${error.message}`);
                 }
             }
 
-            // 立即保存app级别汇总
+            // Save app-level summary immediately
             if (savedFiles.length > 0) {
                 this.saveAppSummaryImmediately(algorithm, appId, savedFiles);
             }
 
             return savedFiles;
         } catch (error) {
-            console.error(`处理文件切片失败 ${filePath}: ${error.message}`);
+            console.error(`Failed to process file slice for ${filePath}: ${error.message}`);
             return [];
         }
     }
 
     /**
-     * 立即保存app级别汇总
+     * Save app-level summary immediately
      */
     saveAppSummaryImmediately(algorithm, appId, savedFiles) {
         const algorithmDir = this.ensureAlgorithmDir(algorithm);
@@ -215,22 +215,22 @@ class BatchAnalyzer {
         };
 
         fs.writeFileSync(summaryPath, JSON.stringify(appSummary, null, 2));
-        console.log(`📋 保存app汇总: ${summaryFileName}`);
+        console.log(`📋 App summary saved: ${summaryFileName}`);
     }
 
     /**
-     * 处理单个app - 流式处理
+     * Process a single app - stream processing
      */
     async processAppStream(appId) {
-        console.log(`\n🔄 处理 ${appId}...`);
+        console.log(`\n🔄 Processing ${appId}...`);
         const analysis = this.readFinalAnalysis(appId);
 
         if (!analysis || !analysis.analyzed_files) {
-            console.warn(`⚠️  跳过 ${appId}: 无有效分析数据`);
+            console.warn(`⚠️  Skipping ${appId}: No valid analysis data`);
             return;
         }
 
-        // 处理每个分析文件
+        // Process each analysis file
         for (const fileAnalysis of analysis.analyzed_files) {
             if (!fileAnalysis.analysis.success || !fileAnalysis.analysis.results.detailed_results) {
                 continue;
@@ -238,7 +238,7 @@ class BatchAnalyzer {
 
             const detailedResults = fileAnalysis.analysis.results.detailed_results;
 
-            // 按算法处理
+            // Process by algorithm
             for (const algorithm of Object.keys(detailedResults)) {
                 await this.processFileSlicingStream(
                     fileAnalysis.file_path,
@@ -250,14 +250,14 @@ class BatchAnalyzer {
         }
 
         this.stats.processedApps++;
-        console.log(`✅ 完成 ${appId}`);
+        console.log(`✅ Finished ${appId}`);
     }
 
     /**
-     * 生成最终汇总报告
+     * Generate final summary report
      */
     generateFinalReport() {
-        // 生成算法级别汇总
+        // Generate algorithm-level summary
         for (const algorithm of this.stats.algorithms) {
             const algorithmDir = path.join(this.outputDir, algorithm);
             const summaryPath = path.join(algorithmDir, `${algorithm}_overall_summary.json`);
@@ -271,10 +271,10 @@ class BatchAnalyzer {
             };
 
             fs.writeFileSync(summaryPath, JSON.stringify(algorithmSummary, null, 2));
-            console.log(`📊 生成算法汇总: ${algorithm}_overall_summary.json`);
+            console.log(`📊 Generated algorithm summary: ${algorithm}_overall_summary.json`);
         }
 
-        // 生成全局报告
+        // Generate global report
         const reportPath = path.join(this.outputDir, 'analysis_report.json');
         const report = {
             timestamp: new Date().toISOString(),
@@ -287,46 +287,46 @@ class BatchAnalyzer {
                 appCount: this.stats.algorithmStats[algorithm].apps.size
             })),
             fileStructure: {
-                description: "流式处理，每个切片立即保存，命名格式: {appId}_{algorithm}_{index}.json",
+                description: "Stream processing, each slice saved immediately, naming format: {appId}_{algorithm}_{index}.json",
                 memoryOptimized: true
             }
         };
 
         fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-        console.log(`📈 生成全局报告: analysis_report.json`);
+        console.log(`📈 Generated global report: analysis_report.json`);
     }
 
     /**
-     * 主要分析流程 - 流式处理
+     * Main analysis pipeline - stream processing
      */
     async analyze() {
-        console.log('🚀 开始流式批量分析...');
+        console.log('🚀 Starting stream batch analysis...');
 
         const appIdFolders = this.getAppIdFolders();
         if (appIdFolders.length === 0) {
-            console.log('❌ 没有找到app_id文件夹');
+            console.log('❌ No app_id folder found');
             return;
         }
 
-        // 流式处理每个app
+        // Process each app in a stream
         for (const appId of appIdFolders) {
             await this.processAppStream(appId);
 
-            // 可选：每处理一定数量的app后强制垃圾回收
+            // Optional: force garbage collection after processing a certain number of apps
             if (this.stats.processedApps % 10 === 0 && global.gc) {
                 global.gc();
-                console.log(`🧹 执行垃圾回收 (已处理 ${this.stats.processedApps} 个app)`);
+                console.log(`🧹 Performing garbage collection (processed ${this.stats.processedApps} apps)`);
             }
         }
 
-        // 生成最终报告
+        // Generate final report
         this.generateFinalReport();
 
-        console.log('\n🎉 流式批量分析完成!');
-        console.log(`📊 统计信息:`);
-        console.log(`   - 处理的app数量: ${this.stats.processedApps}`);
-        console.log(`   - 总切片数量: ${this.stats.totalSlices}`);
-        console.log(`   - 发现的算法: ${Array.from(this.stats.algorithms).join(', ')}`);
+        console.log('\n🎉 Stream batch analysis completed!');
+        console.log(`📊 Statistics:`);
+        console.log(`   - Number of processed apps: ${this.stats.processedApps}`);
+        console.log(`   - Total slice count: ${this.stats.totalSlices}`);
+        console.log(`   - Algorithms discovered: ${Array.from(this.stats.algorithms).join(', ')}`);
 
         return this.stats;
     }

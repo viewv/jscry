@@ -35,7 +35,7 @@ function shouldSkipFunctionAnalysis(functionPath) {
 
 
 
-// 创建 Babel 插件来转换 AST
+// Create Babel plugin to transform AST
 function createVariableTrackerPlugin() {
     return {
         visitor: {
@@ -72,7 +72,7 @@ function createVariableTrackerPlugin() {
                     );
                     ensureTrace._generatedByTracePlugin = true;
 
-                    // 插入到父级语句之后
+                    // Insert after parent statement
                     const statement = path.findParent(p => p.isStatement());
                     if (statement) {
                         statement.insertAfter([ensureTrace, traceCode]);
@@ -125,16 +125,16 @@ function createVariableTrackerPlugin() {
 
 
 function extractArrayValueDynamically(arrayExpression, code) {
-    let arrayCode = 'unknown'; // 在外部声明并初始化默认值
+    let arrayCode = 'unknown'; // Declare and initialize default value externally
 
     try {
-        // 提取数组表达式的代码片段
+        // Extract the code snippet of the array expression
         arrayCode = code.slice(arrayExpression.start, arrayExpression.end);
 
-        // 创建一个安全的执行环境
+        // Create a safe execution context
         const vm = require('vm');
         const sandbox = {
-            // 添加一些基本的全局对象，防止执行出错
+            // Add some basic global objects to prevent execution errors
             Math: Math,
             parseInt: parseInt,
             parseFloat: parseFloat,
@@ -147,10 +147,10 @@ function extractArrayValueDynamically(arrayExpression, code) {
 
         const context = vm.createContext(sandbox);
 
-        // 动态执行数组表达式
+        // Dynamically execute the array expression
         const result = vm.runInContext(arrayCode, context, { timeout: 100 });
 
-        // 验证结果是否为数组
+        // Verify if the result is an array
         if (Array.isArray(result)) {
             return {
                 success: true,
@@ -304,7 +304,7 @@ function extractConstantValue(code) {
                 const id = declaration.id;
                 const init = declaration.init;
 
-                // 对所有有初始化值的变量声明都尝试动态分析
+                // Try dynamic analysis for all variable declarations with initialization values
                 if (init && id.type === "Identifier") {
                     const extractResult = extractArrayValueDynamically(init, code);
 
@@ -325,7 +325,7 @@ function extractConstantValue(code) {
                         constantValueMap[id.name].push({
                             value: extractResult.value,
                             position: position,
-                            type: init.type // 记录原始类型便于调试
+                            type: init.type // Record original type for debugging convenience
                         });
                     }
                 }
@@ -813,7 +813,7 @@ function extractConstantValue(code) {
 
         for (const entry of entries) {
             if (entry.value && typeof entry.value === 'object' && !Array.isArray(entry.value)) {
-                // 安全递归函数
+                // Safe recursive function
                 function extractArraysFromObject(obj, prefix, visited = new Set(), depth = 0, maxDepth = 10) {
                     if (depth > maxDepth || !obj || typeof obj !== 'object') return;
                     if (visited.has(obj)) return;

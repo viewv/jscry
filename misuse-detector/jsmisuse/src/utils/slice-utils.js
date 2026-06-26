@@ -1,6 +1,6 @@
 /**
- * 代码切片工具方法
- * 从crypto-detector.js移植的切片相关功能
+ * Code slicing utility methods
+ * Slicing related functions ported from crypto-detector.js
  */
 const fs = require("fs").promises;
 const path = require("path");
@@ -13,20 +13,20 @@ class SliceUtils {
   }
 
   /**
-   * 转换行列位置为字符偏移
+   * Convert line/column position to character offset
    */
   convertPositionToOffset(code, position) {
     const lines = code.split("\n");
     let startOffset = 0;
     let endOffset = 0;
 
-    // 计算开始偏移
+    // Calculate start offset
     for (let i = 0; i < position.start.line - 1; i++) {
       startOffset += lines[i].length + 1;
     }
     startOffset += position.start.column - 1;
 
-    // 计算结束偏移
+    // Calculate end offset
     for (let i = 0; i < position.end.line - 1; i++) {
       endOffset += lines[i].length + 1;
     }
@@ -39,7 +39,7 @@ class SliceUtils {
   }
 
   /**
-   * 执行代码切片
+   * Perform code slicing
    */
   async performCodeSlicing(code, detailedResults, scriptId) {
     const slices = [];
@@ -52,13 +52,13 @@ class SliceUtils {
           const detection = detections[i];
 
           try {
-            // 转换位置信息为字符偏移
+            // Convert position information to character offset
             const position = this.convertPositionToOffset(
               code,
               detection.position
             );
 
-            // 执行代码切片
+            // Perform code slicing
             const sliceResult = findContainingFunction(code, position);
 
             if (sliceResult) {
@@ -78,25 +78,25 @@ class SliceUtils {
 
               slices.push(slice);
 
-              // 可选：保存切片到文件
+              // Optional: save slice to file
               if (this.outputDir) {
                 await this.saveSliceToFile(slice, scriptId, algorithm, i);
               }
             }
           } catch (sliceError) {
-            console.warn(`切片失败 ${algorithm}[${i}]: ${sliceError.message}`);
+            console.warn(`Slicing failed for ${algorithm}[${i}]: ${sliceError.message}`);
           }
         }
       }
     } catch (error) {
-      console.error(`代码切片过程失败: ${error.message}`);
+      console.error(`Code slicing process failed: ${error.message}`);
     }
 
     return slices;
   }
 
   /**
-   * 保存切片到文件
+   * Save slice to file
    */
   async saveSliceToFile(slice, scriptId, algorithm, index) {
     try {
@@ -122,11 +122,11 @@ class SliceUtils {
       };
 
       await fs.writeFile(filePath, JSON.stringify(sliceData, null, 2));
-      console.log(`保存切片文件: ${fileName}`);
+      console.log(`Saving slice file: ${fileName}`);
 
       return filePath;
     } catch (error) {
-      console.error(`保存切片文件失败: ${error.message}`);
+      console.error(`Failed to save slice file: ${error.message}`);
       return null;
     }
   }

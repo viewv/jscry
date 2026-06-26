@@ -63,7 +63,7 @@ class WorkerPool {
         worker.postMessage(task);
     }
 
-    // 统一的 handleWorkerMessage 方法，合并了两个版本的功能
+    // Unified handleWorkerMessage method, merging features of both versions
     handleWorkerMessage(worker, result) {
         const taskId = worker.currentTaskId;
         const promise = this.activePromises.get(taskId);
@@ -77,7 +77,7 @@ class WorkerPool {
         worker.currentTaskId = null;
         this.availableWorkers.push(worker);
 
-        // 批量分配多个任务而不是单个
+        // Assign multiple tasks in batches instead of a single one
         this.assignMultipleTasks();
     }
 
@@ -130,7 +130,7 @@ class WorkerPool {
     }
 
     async executeParallel(tasks) {
-        // 对于大量任务，使用批量处理
+        // For a large number of tasks, use batch processing
         if (tasks.length > this.maxWorkers * 2) {
             return this.executeBatched(tasks);
         }
@@ -141,17 +141,17 @@ class WorkerPool {
 
     async executeBatched(tasks) {
         const results = [];
-        const batchSize = this.maxWorkers * 3; // 每批处理30个任务
+        const batchSize = this.maxWorkers * 3; // Process 30 tasks per batch
 
         for (let i = 0; i < tasks.length; i += batchSize) {
             const batch = tasks.slice(i, i + batchSize);
             console.log(`🔄 Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(tasks.length / batchSize)} (${batch.length} tasks)`);
 
             const batchPromises = batch.map(task => this.executeTask(task));
-            // 使用 Promise.allSettled 而不是 Promise.all
+            // Use Promise.allSettled instead of Promise.all
             const batchResults = await Promise.allSettled(batchPromises);
 
-            // 处理结果，区分成功和失败的任务
+            // Process results, distinguishing successful and failed tasks
             const processedResults = batchResults.map((result, index) => {
                 if (result.status === 'fulfilled') {
                     return result.value;
@@ -163,7 +163,7 @@ class WorkerPool {
 
             results.push(...processedResults);
 
-            // 给系统一点喘息时间
+            // Give the system a short break
             if (i + batchSize < tasks.length) {
                 await new Promise(resolve => setTimeout(resolve, 10));
             }

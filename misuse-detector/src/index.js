@@ -15,17 +15,17 @@ const argv = yargs
     })
     .option('start', {
         alias: 's',
-        description: '开始的排名',
+        description: 'Start rank',
         type: 'number',
         default: 1
     })
     .option('end', {
         alias: 'e',
-        description: '结束的排名',
+        description: 'End rank',
         type: 'number'
     })
     .option('db', {
-        description: '数据库文件路径',
+        description: 'Database file path',
         type: 'string'
     })
     .argv;
@@ -35,7 +35,7 @@ async function main() {
         path.resolve(process.cwd(), argv.db) : 
         path.join(process.cwd(), `crypto_usage_${argv.start}_${argv.end || argv.number}.db`);
     
-    console.log(`使用数据库: ${dbPath}`);
+    console.log(`Using database: ${dbPath}`);
     
     const analyzer = new WebsiteAnalyzer({
         rankingFile: argv.file,

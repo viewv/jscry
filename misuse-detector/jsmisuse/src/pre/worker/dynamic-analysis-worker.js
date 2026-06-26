@@ -144,7 +144,7 @@ function executeDynamicAnalysis(task) {
 
         // Execute with timeout
         const result = vm.runInContext(transformedCode, context, {
-            timeout: 1000,  // 增加超时时间
+            timeout: 1000,  // Increase timeout
             displayErrors: false
         });
 

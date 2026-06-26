@@ -1,6 +1,6 @@
 module.exports = {
   apps: [
-    // 这里定义多个实例，每个实例负责不同范围的网站
+    // Define multiple instances here, each instance responsible for a different range of websites
     {
       name: "analyzer-1-1000",
       script: "src/index.js",
@@ -16,6 +16,6 @@ module.exports = {
       script: "src/index.js",
       args: "--file top-sites.csv --start 2001 --end 3000 --db crypto_usage_2001_3000.db"
     },
-    // 可以根据需要添加更多实例
+    // More instances can be added as needed
   ]
 };

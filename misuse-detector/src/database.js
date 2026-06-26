@@ -84,7 +84,7 @@ class Database {
     }
 
     async getMisuseStats() {
-        // 由于我们没有专门存储误用信息，这里返回一个空对象
+        // Since we do not explicitly store misuse information, return an empty object here
         return {
             hardcoded_keys: 0,
             weak_modes: 0,

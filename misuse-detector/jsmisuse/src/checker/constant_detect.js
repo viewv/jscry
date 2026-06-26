@@ -2,37 +2,37 @@ const { extractConstantValue } = require('../pre/iife_constant');
 
 const CRYPTO_SIGNATURES = {
     AES: {
-        // AES S-box 的标志性值
+        // AES S-box characteristic values
         SBOX_VALUES: [
             0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
             0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0
         ],
-        // AES 逆S-box的标志性值
+        // AES inverse S-box characteristic values
         INV_SBOX_VALUES: [
             0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
             0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb
         ],
-        // AES轮常数
+        // AES round constants
         RCON_VALUES: [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36],
 
         // Ahead 0
         RCON_VALUES_SP: [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36],
 
-        // MixColumns 矩阵常数
+        // MixColumns matrix constants
         MIX_COLUMNS: [0x02, 0x03, 0x01, 0x01, 0x01, 0x02, 0x03, 0x01, 0x01, 0x01, 0x02, 0x03, 0x03, 0x01, 0x01, 0x02]
     },
     DES: {
-        // DES S-box 标志性值（更完整）
+        // DES S-box characteristic values (more complete)
         SBOX1_VALUES: [14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
-        // DES PC2置换表的特征值
+        // DES PC2 permutation table characteristic values
         PC2_VALUES: [14, 11, 17, 4, 27, 23, 25, 0, 13, 22, 7, 18, 5, 9, 16, 24],
-        // DES S-box表的特征序列
+        // DES S-box table characteristic sequence
         SBOX_SIGNATURE: [14, 0, 4, 15, 13, 7, 1, 4, 2, 14, 15, 2, 11, 13, 8, 1],
-        // DES置换表特征
+        // DES permutation table characteristics
         PERMUTE_VALUES: [16, 25, 12, 11, 3, 20, 4, 15, 31, 17, 9, 6, 27, 14, 1, 22]
     },
     SHA: {
-        // SHA-1/SHA-256 常数
+        // SHA-1/SHA-256 constants
         SHA1_H: [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0],
         SHA256_H: [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19],
         SHA512_K: [
@@ -41,7 +41,7 @@ const CRYPTO_SIGNATURES = {
             0x3956c25b, 0xf348b538, 0x59f111f1, 0xb605d019,
             0x923f82a4, 0xaf194f9b, 0xab1c5ed5, 0xda6d8118
         ],
-        // SHA-256 轮常数部分
+        // SHA-256 round constants part
         SHA256_K: [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5],
     },
     SHA3: {
@@ -77,20 +77,20 @@ const CRYPTO_SIGNATURES = {
         SHA3_PI_SHUFFLES: [10, 7, 11, 17, 18, 3, 5, 16, 8, 21, 24, 4, 15, 23, 19, 13, 12, 2, 20, 14, 22, 9, 6, 1]
     },
     MD5: {
-        // MD5 初始值
+        // MD5 initial hash values
         MD5_H: [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476],
-        // MD5 轮常数部分
+        // MD5 round constants part
         MD5_T: [0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501]
     },
     RSA: {
-        // 常见的RSA公钥指数
+        // Common RSA public exponents
         COMMON_E: [3, 17, 65537],
-        // 费马数
+        // Fermat numbers
         FERMAT_NUMBERS: [3, 5, 17, 257, 65537]
     },
     Ed25519: {
-        // Ed25519 曲线参数
-        // 原始16位分段形式（TweetNaCl格式）
+        // Ed25519 curve parameters
+        // Original 16-bit segmented format (TweetNaCl format)
         CURVE_D_SEGMENTS: [0x78a3, 0x1359, 0x4dca, 0x75eb, 0xd8ab, 0x4141, 0x0a4d, 0x0070, 0xe898, 0x7779, 0x4079, 0x8cc7, 0xfe73, 0x2b6f, 0x6cee, 0x5203],
         CURVE_2D_SEGMENTS: [0xf159, 0x26b2, 0x9b94, 0xebd6, 0xb156, 0x8283, 0x149a, 0x00e0, 0xd130, 0xeef3, 0x80f2, 0x198e, 0xfce7, 0x56df, 0xd9dc, 0x2406],
         BASE_X_SEGMENTS: [0xd51a, 0x8f25, 0x2d60, 0xc956, 0xa7b2, 0x9525, 0xc760, 0x692c, 0xdc5c, 0xfdd6, 0xe231, 0xc0a4, 0x53fe, 0xcd6e, 0x36d3, 0x2169],
@@ -98,34 +98,34 @@ const CRYPTO_SIGNATURES = {
         SQRT_M1_SEGMENTS: [0xa0b0, 0x4a0e, 0x1b27, 0xc4ee, 0xe478, 0xad2f, 0x1806, 0x2f43, 0xd7a7, 0x3dfb, 0x0099, 0x2b4d, 0xdf0b, 0x4fc1, 0x2480, 0x2b83],
         //TODO add g 216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d51a https://github.com/indutny/elliptic/blob/master/lib/elliptic/curves.js
 
-        // 有限域模数 p = 2^255 - 19
+        // Finite field modulus p = 2^255 - 19
         FIELD_PRIME: [0xed, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x7f],
-        // Edwards 曲线参数 d = -121665/121666
+        // Edwards curve parameter d = -121665/121666
         CURVE_D: [0xa3, 0x78, 0x59, 0x13, 0xca, 0x4d, 0xeb, 0x75, 0xab, 0xd8, 0x41, 0x41, 0x4d, 0x0a, 0x70, 0x00, 0x98, 0xe8, 0x79, 0x77, 0x79, 0x40, 0xc7, 0x8c, 0x73, 0xfe, 0x6f, 0x2b, 0xee, 0x6c, 0x03, 0x52],
         // 2*d
         CURVE_2D: [0x59, 0xf1, 0xb2, 0x26, 0x94, 0x9b, 0xd6, 0xeb, 0x56, 0xb1, 0x83, 0x82, 0x9a, 0x14, 0xe0, 0x00, 0x30, 0xd1, 0xf3, 0xee, 0xf2, 0x80, 0x8e, 0x19, 0xe7, 0xfc, 0xdf, 0x56, 0xdc, 0xd9, 0x06, 0x24],
-        // 基点 G 的 x 坐标
+        // x-coordinate of base point G
         BASE_POINT_X: [0x1a, 0xd5, 0x25, 0x8f, 0x60, 0x2d, 0x56, 0xc9, 0xb2, 0xa7, 0x25, 0x95, 0x60, 0xc7, 0x2c, 0x69, 0x5c, 0xdc, 0xd6, 0xfd, 0x31, 0xe2, 0xa4, 0xc0, 0xfe, 0x53, 0x6e, 0xcd, 0xd3, 0x36, 0x69, 0x21],
-        // 基点 G 的 y 坐标
+        // y-coordinate of base point G
         BASE_POINT_Y: [0x58, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66, 0x66],
         // sqrt(-1) mod p
         SQRT_MINUS_ONE: [0xb0, 0xa0, 0x0e, 0x4a, 0x27, 0x1b, 0xee, 0xc4, 0x78, 0xe4, 0x2f, 0xad, 0x06, 0x18, 0x43, 0x2f, 0xa7, 0xd7, 0xfb, 0x3d, 0x99, 0x00, 0x4d, 0x2b, 0x0b, 0xdf, 0xc1, 0x4f, 0x80, 0x24, 0x83, 0x2b],
     },
     Salsa20: {
-        // Salsa20 常量
-        // Sigma: "expand 32-byte k" (用于32字节密钥)
+        // Salsa20 constants
+        // Sigma: "expand 32-byte k" (used for 32-byte keys)
         SIGMA: [0x65, 0x78, 0x70, 0x61, 0x6e, 0x64, 0x20, 0x33, 0x32, 0x2d, 0x62, 0x79, 0x74, 0x65, 0x20, 0x6b],
 
-        // Tau: "expand 16-byte k" (用于16字节密钥)
+        // Tau: "expand 16-byte k" (used for 16-byte keys)
         TAU: [0x65, 0x78, 0x70, 0x61, 0x6e, 0x64, 0x20, 0x31, 0x36, 0x2d, 0x62, 0x79, 0x74, 0x65, 0x20, 0x6b],
 
-        // 32位整数形式的 Sigma
+        // Sigma in 32-bit integer format
         SIGMA_32BIT: [0x61707865, 0x3320646e, 0x79622d32, 0x6b206574],
 
-        // 32位整数形式的 Tau
+        // Tau in 32-bit integer format
         TAU_32BIT: [0x61707865, 0x3120646e, 0x79622d36, 0x6b206574],
 
-        // 字符串形式（用于检测）
+        // String format (used for detection)
         SIGMA_STRING: "expand 32-byte k",
         TAU_STRING: "expand 16-byte k",
     },
@@ -154,10 +154,10 @@ const CRYPTO_SIGNATURES = {
 
 
 /**
- * 检查数组是否包含指定的子序列
- * @param {Array} array - 要检查的数组
- * @param {Array} sequence - 要查找的子序列
- * @param {number} minMatches - 最小匹配数量
+ * Check if the array contains the specified subsequence
+ * @param {Array} array - Array to check
+ * @param {Array} sequence - Subsequence to find
+ * @param {number} minMatches - Minimum matches count
  * @returns {boolean}
  */
 function containsSequence(array, sequence, minMatches = 8) {
@@ -199,10 +199,10 @@ function containsSequence(array, sequence, minMatches = 8) {
 // }
 
 /**
- * 检查数组是否包含指定值的一定比例
- * @param {Array} array - 要检查的数组
- * @param {Array} targetValues - 目标值数组
- * @param {number} threshold - 匹配阈值（0-1之间）
+ * Check if the array contains a certain proportion of the specified values
+ * @param {Array} array - Array to check
+ * @param {Array} targetValues - Target values array
+ * @param {number} threshold - Matching threshold (between 0 and 1)
  * @returns {boolean}
  */
 function containsValues(array, targetValues, threshold = 0.6) {
@@ -210,23 +210,23 @@ function containsValues(array, targetValues, threshold = 0.6) {
         return false;
     }
 
-    // 将目标值转换为有符号和无符号两种形式
+    // Convert target values to signed and unsigned formats
     const normalizedTargets = new Set();
     targetValues.forEach(val => {
-        // 添加原始值
+        // Add original value
         normalizedTargets.add(val);
-        // 添加有符号32位表示
+        // Add signed 32-bit representation
         normalizedTargets.add(val | 0);
-        // 添加无符号32位表示
+        // Add unsigned 32-bit representation
         normalizedTargets.add(val >>> 0);
     });
 
     const matches = array.filter(val => {
-        // 检查原始值
+        // Check original value
         if (normalizedTargets.has(val)) return true;
-        // 检查有符号转换
+        // Check signed conversion
         if (normalizedTargets.has(val | 0)) return true;
-        // 检查无符号转换
+        // Check unsigned conversion
         if (normalizedTargets.has(val >>> 0)) return true;
         return false;
     }).length;
@@ -237,15 +237,15 @@ function containsValues(array, targetValues, threshold = 0.6) {
 
 
 /**
- * 将常量值转换为数字数组（如果可能）
- * @param {*} value - 常量值
+ * Convert constant value to numeric array (if possible)
+ * @param {*} value - Constant value
  * @returns {Array|null}
  */
 function extractNumericArray(value) {
     if (Array.isArray(value)) {
-        // 处理嵌套数组，展平为一维数组
+        // Process nested arrays, flatten to 1D array
         const flattened = value.flat(Infinity);
-        // 尝试转换为数字
+        // Attempt to convert to numbers
         const numeric = flattened.map(v => {
             if (typeof v === 'number') return v;
             if (typeof v === 'string') {
@@ -261,9 +261,9 @@ function extractNumericArray(value) {
 }
 
 /**
- * 检测加密算法常量
- * @param {string} code - 要分析的代码
- * @returns {Object} 检测结果
+ * Detect cryptographic algorithm constants
+ * @param {string} code - Code to analyze
+ * @returns {Object} Detection result
  */
 function detectCryptoConstants(code) {
     const constantValueMap = extractConstantValue(code);
@@ -273,7 +273,7 @@ function detectCryptoConstants(code) {
         confidence: {}
     };
 
-    // 遍历所有检测到的常量
+    // Iterate through all detected constants
     for (const [varName, constantEntries] of Object.entries(constantValueMap)) {
         for (const entry of constantEntries) {
             const numericArray = extractNumericArray(entry.value);
@@ -281,7 +281,7 @@ function detectCryptoConstants(code) {
                 continue;
             }
 
-            // 检测加密算法
+            // Detect cryptographic algorithm
             const cryptoType = detectCryptoType(numericArray);
             if (cryptoType) {
                 detectionResults.detected.push(cryptoType);
@@ -296,7 +296,7 @@ function detectCryptoConstants(code) {
                     source: entry.source || 'static'
                 });
 
-                // 更新总体置信度
+                // Update overall confidence
                 if (!detectionResults.confidence[cryptoType.algorithm]) {
                     detectionResults.confidence[cryptoType.algorithm] = 0;
                 }
@@ -312,15 +312,15 @@ function detectCryptoConstants(code) {
 }
 
 /**
- * 检测特定数组属于哪种加密算法
- * @param {Array} numericArray - 数字数组
- * @param {string} varName - 变量名
- * @returns {Object|null} 检测结果
+ * Detect which cryptographic algorithm a specific array belongs to
+ * @param {Array} numericArray - Numeric array
+ * @param {string} varName - Variable name
+ * @returns {Object|null} Detection result
  */
 function detectCryptoType(numericArray) {
     const detectionResults = [];
 
-    // AES 检测
+    // AES detection
     if (containsSequence(numericArray, CRYPTO_SIGNATURES.AES.SBOX_VALUES, 16)) {
         detectionResults.push({
             algorithm: 'AES',
@@ -357,7 +357,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // DES 检测（更完整）
+    // DES detection (more complete)
     if (containsSequence(numericArray, CRYPTO_SIGNATURES.DES.PC2_VALUES, 8)) {
         detectionResults.push({
             algorithm: 'DES',
@@ -385,7 +385,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // SHA-1 检测
+    // SHA-1 detection
     if (containsValues(numericArray, CRYPTO_SIGNATURES.SHA.SHA1_H, 1.0)) {
         detectionResults.push({
             algorithm: 'SHA-1',
@@ -395,7 +395,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // MD5 检测 - 只有在不是SHA-1的情况下才检测
+    // MD5 detection - only perform if it is not SHA-1
     if (!detectionResults.some(r => r.algorithm === 'SHA-1')) {
         if (containsValues(numericArray, CRYPTO_SIGNATURES.MD5.MD5_H, 1.0)) {
             detectionResults.push({
@@ -423,7 +423,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // SHA-256 检测
+    // SHA-256 detection
     if (containsValues(numericArray, CRYPTO_SIGNATURES.SHA.SHA256_H, 0.8)) {
         detectionResults.push({
             algorithm: 'SHA-256',
@@ -442,7 +442,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // RSA 检测
+    // RSA detection
     // if (containsValues(numericArray, CRYPTO_SIGNATURES.RSA.COMMON_E, 1.0)) {
     //     detectionResults.push({
     //         algorithm: 'RSA',
@@ -452,7 +452,7 @@ function detectCryptoType(numericArray) {
     //     });
     // }
 
-    // 新增：Ed25519 检测
+    // Added: Ed25519 detection
     if (containsValues(numericArray, CRYPTO_SIGNATURES.Ed25519.CURVE_D_SEGMENTS, 0.8)) {
         detectionResults.push({
             algorithm: 'Ed25519',
@@ -489,7 +489,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // 新增：Salsa20 检测
+    // Added: Salsa20 detection
     if (containsSequence(numericArray, CRYPTO_SIGNATURES.Salsa20.SIGMA, 16)) {
         detectionResults.push({
             algorithm: 'Salsa20',
@@ -526,7 +526,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // 新增：SHA-512 检测
+    // Added: SHA-512 detection
     if (containsValues(numericArray, CRYPTO_SIGNATURES.SHA.SHA512_SIGNATURE, 1.0)) {
         detectionResults.push({
             algorithm: 'SHA-512',
@@ -555,7 +555,7 @@ function detectCryptoType(numericArray) {
         });
     }
 
-    // 返回置信度最高的结果
+    // Return the result with the highest confidence
     if (detectionResults.length === 0) {
         return null;
     } else if (detectionResults.length === 1) {
@@ -567,9 +567,9 @@ function detectCryptoType(numericArray) {
 }
 
 /**
- * 生成检测报告
- * @param {Object} results - 检测结果
- * @returns {string} 格式化的报告
+ * Generate detection report
+ * @param {Object} results - Detection results
+ * @returns {string} Formatted report
  */
 function generateReport(results) {
     if (results.detected.length === 0) {
@@ -603,11 +603,11 @@ module.exports = {
     CRYPTO_SIGNATURES
 };
 
-// 示例用法
+// Example usage
 if (require.main === module) {
     const fs = require('fs');
 
-    // 从命令行参数获取文件路径
+    // Get file path from command line arguments
     const filePath = process.argv[2];
     if (!filePath) {
         console.log('Usage: node constant_detect.js <file_path>');

@@ -121,32 +121,32 @@ class WebCrawler {
     }, baseUrl);
   }
 
-  // 在 WebCrawler 类中添加一个 reset 方法
+  // Add a reset method to the WebCrawler class
   async reset() {
-    // 重置所有状态
+    // Reset all state
     this.visited = new Set();
     this.queue = [];
     this.scriptContents = new Map();
     this.pageCount = 0;
     
-    // 如果浏览器实例存在，关闭它并重新创建
+    // If browser instance exists, close it and recreate
     if (this.browser) {
       await this.browser.close();
       this.browser = null;
     }
   }
   
-  // 修改 crawl 方法，确保每次调用前都重置状态
+  // Modify the crawl method to ensure state is reset before each call
   async crawl(startUrl, depth = 0) {
     if (!this.isValidUrl(startUrl)) {
       console.error(`Invalid URL: ${startUrl}`);
       return;
     }
   
-    // 重置状态
+    // Reset state
     await this.reset();
   
-    // 初始化浏览器
+    // Initialize browser
     if (!this.browser) {
       await this.initialize();
     }

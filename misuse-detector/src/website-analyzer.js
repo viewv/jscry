@@ -63,16 +63,16 @@ class WebsiteAnalyzer {
                 createReadStream(this.options.rankingFile)
                     .pipe(csv())
                     .on('data', (data) => {
-                        // 添加数据结构调试
+                        // Add data structure debugging
                         if (results.length === 0) {
-                            console.log('CSV 数据结构:', data);
+                            console.log('CSV data structure:', data);
                         }
 
                         const rank = parseInt(data.rank);
                         const domain = data.domain;
 
-                        // 添加数据处理调试
-                        // console.log(`处理数据: rank=${rank}, domain=${domain}`);
+                        // Add data processing debugging
+                        // console.log(`Processing data: rank=${rank}, domain=${domain}`);
 
                         if (rank >= this.options.startRank &&
                             rank <= this.options.endRank) {
@@ -82,23 +82,23 @@ class WebsiteAnalyzer {
                                     rank: rank,
                                     domain: domain.trim()
                                 });
-                                console.log(`添加网站: rank=${rank}, domain=${domain}`);
+                                 console.log(`Added website: rank=${rank}, domain=${domain}`);
                             }
                         }
                     })
                     .on('end', () => {
-                        console.log(`处理完成，找到 ${results.length} 个符合条件的网站`);
+                        console.log(`Processing completed, found ${results.length} matching websites`);
                         if (results.length > 0) {
-                            console.log('首个网站:', results[0]);
+                            console.log('First website:', results[0]);
                         }
                         resolve(results);
                     })
                     .on('error', (err) => {
-                        console.error('CSV 读取错误:', err);
+                        console.error('CSV read error:', err);
                         reject(err);
                     });
             } catch (err) {
-                console.error('loadTopSites 错误:', err);
+                console.error('loadTopSites error:', err);
                 reject(err);
             }
         });
@@ -119,29 +119,29 @@ class WebsiteAnalyzer {
             // Configure crawler for this site
             this.crawler.options.outputDir = siteOutputDir;
 
-            // 确保爬虫状态被重置（虽然在 crawl 方法中已经添加了重置，这里为了安全起见再次调用）
+            // Ensure crawler state is reset (although reset is already called in the crawl method, call it again here for safety)
             await this.crawler.reset();
 
             // Crawl the site
             const crawlResult = await this.crawler.crawl(url);
 
-            // 获取脚本内容前先检查数量
+            // Check count before getting script content
             const scripts = this.crawler.getScriptContents();
-            console.log(`实际提取到 ${scripts.size} 个脚本文件`);
+            console.log(`Actually extracted ${scripts.size} script files`);
 
             // Analyze scripts for crypto usage
             const analysisResults = await this.detector.analyzeScripts(scripts);
 
-            // 确保 analysisResults 是数组
+            // Ensure analysisResults is an array
             if (!Array.isArray(analysisResults)) {
                 console.warn(`Warning: analysisResults is not an array for ${site.domain}`);
                 analysisResults = [];
             }
 
-            // 检查是否有加密算法
+            // Check if there are cryptographic algorithms
             const hasCrypto = analysisResults.some(r => r && r.hasCrypto);
 
-            // 提取所有检测到的算法
+            // Extract all detected algorithms
             const algorithms = [];
             analysisResults.forEach(result => {
                 if (result && result.detectedAlgorithms) {
@@ -149,7 +149,7 @@ class WebsiteAnalyzer {
                 }
             });
 
-            // 准备数据库结果
+            // Prepare database results
             const dbResult = {
                 domain: site.domain,
                 rank: site.rank,
@@ -159,7 +159,7 @@ class WebsiteAnalyzer {
                 algorithms: algorithms
             };
 
-            // 存储结果到数据库
+            // Store results to database
             await this.database.storeDomainResults(dbResult);
 
             return {

@@ -4,9 +4,9 @@ const traverse = require("@babel/traverse").default;
 const generate = require("@babel/generator").default;
 const beautify = require("js-beautify").js;
 
-// 静态分析版本 - 不使用动态执行，避免超时问题
+// Static analysis version - does not use dynamic execution, avoiding timeout issues
 
-// 静态提取数组字面量值
+// Statically extract array literal values
 function extractArrayValueStatically(arrayExpression) {
   try {
     if (arrayExpression.type !== "ArrayExpression") {
@@ -43,7 +43,7 @@ function extractArrayValueStatically(arrayExpression) {
           elements.push(null);
           break;
         case "UnaryExpression":
-          // 处理简单的一元表达式，如 -1, +1, !true
+          // Handle simple unary expressions, such as -1, +1, !true
           if (
             element.operator === "-" &&
             element.argument.type === "NumericLiteral"
@@ -65,7 +65,7 @@ function extractArrayValueStatically(arrayExpression) {
           }
           break;
         case "ArrayExpression":
-          // 递归处理嵌套数组
+          // Recursively handle nested arrays
           const nestedResult = extractArrayValueStatically(element);
           if (nestedResult.success) {
             elements.push(nestedResult.value);
@@ -96,7 +96,7 @@ function extractArrayValueStatically(arrayExpression) {
   }
 }
 
-// 静态分析版本的常量提取函数
+// Constant extraction function for the static analysis version
 function extractConstantValueStatic(code) {
   const ast = parse(code, {
     sourceType: "unambiguous",
@@ -110,7 +110,7 @@ function extractConstantValueStatic(code) {
 
   const constantValueMap = {};
 
-  // 1. 处理变量声明
+  // 1. Handle variable declarations
   traverse(ast, {
     VariableDeclaration(path) {
       const node = path.node;
@@ -122,7 +122,7 @@ function extractConstantValueStatic(code) {
         if (init && id.type === "Identifier") {
           let extractResult;
 
-          // 根据不同的初始化类型选择合适的提取方法
+          // Choose appropriate extraction method based on different initialization types
           if (init.type === "ArrayExpression") {
             extractResult = extractArrayValueStatically(init);
           } else if (
@@ -133,7 +133,7 @@ function extractConstantValueStatic(code) {
               (arg) => arg.type === "Literal" || arg.type === "NumericLiteral"
             )
           ) {
-            // 静态处理 new Array(1,2,3) 形式
+            // Statically handle new Array(1,2,3) format
             const args = init.arguments.map((arg) => arg.value);
             extractResult = {
               success: true,
@@ -149,14 +149,14 @@ function extractConstantValueStatic(code) {
             init.type === "StringLiteral" ||
             init.type === "BooleanLiteral"
           ) {
-            // 处理基本字面量
+            // Handle basic literals
             extractResult = {
               success: true,
-              value: [init.value], // 包装成数组以保持一致性
+              value: [init.value], // Wrap in array for consistency
               originalCode: generate(init).code,
             };
           } else {
-            // 对于其他复杂表达式，记录但不尝试求值
+            // For other complex expressions, record but do not attempt evaluation
             extractResult = {
               success: false,
               error: "Complex expression - static analysis only",
@@ -191,7 +191,7 @@ function extractConstantValueStatic(code) {
     },
   });
 
-  // 2. 处理对象表达式中的数组属性
+  // 2. Handle array properties in object expressions
   traverse(ast, {
     ObjectExpression(path) {
       const node = path.node;
@@ -232,7 +232,7 @@ function extractConstantValueStatic(code) {
     },
   });
 
-  // 3. 处理赋值表达式
+  // 3. Handle assignment expressions
   traverse(ast, {
     ExpressionStatement(path) {
       const node = path.node;
@@ -268,30 +268,30 @@ function extractConstantValueStatic(code) {
     },
   });
 
-  // // 4. 静态分析IIFE - 只记录结构，不执行
+  // // 4. Static analysis of IIFE - only records structure, does not execute
   //   traverse(ast, {
   //     CallExpression(path) {
   //       const node = path.node;
   //       const callee = node.callee;
-
-  //       // 检测IIFE
+  // 
+  //       // Detect IIFE
   //       const isInlineFunction =
   //         callee.type === "FunctionExpression" ||
   //         callee.type === "ArrowFunctionExpression";
-
+  // 
   //       const isDirectCall =
   //         path.get("callee").isFunctionExpression() ||
   //         path.get("callee").isArrowFunctionExpression();
-
+  // 
   //       if (isInlineFunction && isDirectCall) {
   //         console.log(
   //           "📍 IIFE detected at line (static analysis):",
   //           path.node.loc?.start.line
   //         );
-
-  //         // 静态分析IIFE内部的变量声明和数组字面量
+  // 
+  //         // Statically analyze variable declarations and array literals inside IIFE
   //         const iifeConstants = {};
-
+  // 
   //         path.traverse({
   //           VariableDeclaration(declPath) {
   //             declPath.node.declarations.forEach((decl) => {
@@ -309,9 +309,9 @@ function extractConstantValueStatic(code) {
   //               }
   //             });
   //           },
-
+  // 
   //           ArrayExpression(arrayPath) {
-  //             // 收集IIFE内部的所有数组字面量
+  //             // Collect all array literals inside IIFE
   //             const extractResult = extractArrayValueStatically(arrayPath.node);
   //             if (extractResult.success) {
   //               const arrayKey = `__iife_array_${arrayPath.node.loc.start.line}_${arrayPath.node.loc.start.column}`;
@@ -323,8 +323,8 @@ function extractConstantValueStatic(code) {
   //             }
   //           },
   //         });
-
-  //         // 将IIFE内部发现的常量添加到结果中
+  // 
+  //         // Add constants found inside IIFE to the results
   //         for (const [varName, constData] of Object.entries(iifeConstants)) {
   //           if (constantValueMap[varName] === undefined) {
   //             constantValueMap[varName] = [];
@@ -345,18 +345,18 @@ function extractConstantValueStatic(code) {
   //       }
   //     },
   //   });
-
-  // // 5. 静态分析函数 - 只记录结构，不执行
+  // 
+  // // 5. Static analysis of functions - only records structure, does not execute
   // traverse(ast, {
   //     Function(path) {
   //         const node = path.node;
-
-  //         // 只分析无参数的函数
+  // 
+  //         // Only analyze parameterless functions
   //         if (node.params.length === 0) {
   //             console.log("📍 Function detected at line (static analysis):", path.node.loc?.start.line);
-
+  // 
   //             const functionConstants = {};
-
+  // 
   //             path.traverse({
   //                 VariableDeclaration(declPath) {
   //                     declPath.node.declarations.forEach((decl) => {
@@ -372,7 +372,7 @@ function extractConstantValueStatic(code) {
   //                         }
   //                     });
   //                 },
-
+  // 
   //                 ArrayExpression(arrayPath) {
   //                     const extractResult = extractArrayValueStatically(arrayPath.node);
   //                     if (extractResult.success) {
@@ -385,8 +385,8 @@ function extractConstantValueStatic(code) {
   //                     }
   //                 }
   //             });
-
-  //             // 将函数内部发现的常量添加到结果中
+  // 
+  //             // Add constants found inside functions to the results
   //             for (const [varName, constData] of Object.entries(functionConstants)) {
   //                 if (constantValueMap[varName] === undefined) {
   //                     constantValueMap[varName] = [];
@@ -405,7 +405,7 @@ function extractConstantValueStatic(code) {
   //     }
   // });
 
-  // 6. 收集所有数组字面量（包括未命名的）
+  // 6. Collect all array literals (including unnamed ones)
   traverse(ast, {
     ArrayExpression(path) {
       const node = path.node;
@@ -434,7 +434,7 @@ function extractConstantValueStatic(code) {
     },
   });
 
-  // 7. 从对象中提取数组属性（静态版本）
+  // 7. From object extract array properties (static version)
   const additionalEntries = {};
 
   for (const varName in constantValueMap) {
@@ -446,7 +446,7 @@ function extractConstantValueStatic(code) {
         typeof entry.value === "object" &&
         !Array.isArray(entry.value)
       ) {
-        // 安全递归函数 - 静态版本
+        // Safe recursive function - static version
         function extractArraysFromObjectStatic(
           obj,
           prefix,
@@ -509,7 +509,7 @@ function extractConstantValueStatic(code) {
   return constantValueMap;
 }
 
-// 静态分析文件的函数
+// Function to analyze file statically
 function analyzeFileStatic(filePath) {
   const code = fs.readFileSync(filePath, "utf-8");
   const constants = extractConstantValueStatic(code);
@@ -520,7 +520,7 @@ function analyzeFileStatic(filePath) {
   return constants;
 }
 
-// 导出函数
+// Export functions
 module.exports = {
   extractConstantValueStatic,
   analyzeFileStatic,

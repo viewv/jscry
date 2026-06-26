@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Libs分析器 - 每个算法实现输出为独立JS文件
+ * Libs analyzer - outputting each algorithm implementation as an independent JS file
  */
 class LibsAnalyzer {
     constructor() {
@@ -19,15 +19,15 @@ class LibsAnalyzer {
     }
 
     /**
-     * 确保输出目录存在
+     * Ensure output directory exists
      */
     ensureOutputDir() {
         if (!fs.existsSync(this.outputDir)) {
             fs.mkdirSync(this.outputDir, { recursive: true });
-            console.log(`创建输出目录: ${this.outputDir}`);
+            console.log(`Creating output directory: ${this.outputDir}`);
         }
 
-        // 创建子目录
+        // Create subdirectories
         const subDirs = ['by_app', 'by_algorithm', 'reports'];
         subDirs.forEach(dir => {
             const dirPath = path.join(this.outputDir, dir);
@@ -38,7 +38,7 @@ class LibsAnalyzer {
     }
 
     /**
-     * 获取所有算法目录
+     * Get all algorithm directories
      */
     getAlgorithmDirs() {
         try {
@@ -46,13 +46,13 @@ class LibsAnalyzer {
                 .filter(dirent => dirent.isDirectory())
                 .map(dirent => dirent.name);
         } catch (error) {
-            console.error(`读取libs目录失败: ${error.message}`);
+            console.error(`Failed to read libs directory: ${error.message}`);
             return [];
         }
     }
 
     /**
-     * 读取算法目录下的所有切片文件
+     * Read all slice files in the algorithm directory
      */
     readSliceFiles(algorithm) {
         const algorithmDir = path.join(this.libsDir, algorithm);
@@ -73,71 +73,71 @@ class LibsAnalyzer {
                         });
                     }
                 } catch (error) {
-                    console.warn(`读取文件失败 ${file}: ${error.message}`);
+                    console.warn(`Failed to read file ${file}: ${error.message}`);
                 }
             }
         } catch (error) {
-            console.error(`读取算法目录失败 ${algorithm}: ${error.message}`);
+            console.error(`Failed to read algorithm directory ${algorithm}: ${error.message}`);
         }
 
         return sliceFiles;
     }
 
     /**
-     * 生成代码去重哈希
+     * Generate code deduplication hash
      */
     generateCodeHash(code) {
-        // 简单的代码标准化和哈希
+        // Simple code standardization and hashing
         const normalized = code
             .replace(/\s+/g, ' ')
             .replace(/\/\*[\s\S]*?\*\//g, '')
             .replace(/\/\/.*$/gm, '')
             .trim();
 
-        // 简单哈希函数
+        // Simple hash function
         let hash = 0;
         for (let i = 0; i < normalized.length; i++) {
             const char = normalized.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // 转换为32位整数
+            hash = hash & hash; // Convert to 32-bit integer
         }
         return hash.toString(36);
     }
 
     /**
-     * 生成单个算法实现的JS文件
+     * Generate JS file for a single algorithm implementation
      */
     generateSingleAlgorithmFile(slice, versionIndex) {
         const { appId, algorithm } = slice;
         const codeHash = this.generateCodeHash(slice.slice.code);
 
-        // 创建App目录
+        // Create App directory
         const appDir = path.join(this.outputDir, 'by_app', appId);
         if (!fs.existsSync(appDir)) {
             fs.mkdirSync(appDir, { recursive: true });
         }
 
-        // 创建算法目录
+        // Create algorithm directory
         const algorithmDir = path.join(this.outputDir, 'by_algorithm', algorithm);
         if (!fs.existsSync(algorithmDir)) {
             fs.mkdirSync(algorithmDir, { recursive: true });
         }
 
-        // 生成文件名
+        // Generate file name
         const baseFileName = `${appId}_${algorithm}_v${versionIndex}_${codeHash.substring(0, 6)}`;
 
-        // 生成JS文件内容
+        // Generate JS file content
         const jsContent = this.generateJSFileContent(slice, versionIndex, codeHash);
 
-        // 保存到by_app目录
+        // Save to by_app directory
         const appFilePath = path.join(appDir, `${baseFileName}.js`);
         fs.writeFileSync(appFilePath, jsContent);
 
-        // 保存到by_algorithm目录
+        // Save to by_algorithm directory
         const algorithmFilePath = path.join(algorithmDir, `${baseFileName}.js`);
         fs.writeFileSync(algorithmFilePath, jsContent);
 
-        console.log(`✅ 生成算法文件: ${baseFileName}.js`);
+        console.log(`✅ Generated algorithm file: ${baseFileName}.js`);
 
         this.stats.totalFiles++;
 
@@ -155,39 +155,39 @@ class LibsAnalyzer {
     }
 
     /**
-     * 生成JS文件内容
+     * Generate JS file content
      */
     generateJSFileContent(slice, versionIndex, codeHash) {
         const { appId, algorithm } = slice;
 
         let content = `/**\n`;
-        content += ` * ${algorithm} 算法实现\n`;
+        content += ` * ${algorithm} algorithm implementation\n`;
         content += ` * App ID: ${appId}\n`;
-        content += ` * 版本: v${versionIndex}\n`;
-        content += ` * 代码哈希: ${codeHash}\n`;
-        content += ` * 来源文件: ${slice.sourceFile}\n`;
-        content += ` * 检测类型: ${slice.detection.type}\n`;
-        content += ` * 置信度: ${slice.detection.confidence}\n`;
-        content += ` * 函数名: ${slice.slice.name || 'anonymous'}\n`;
-        content += ` * 行数: ${slice.slice.lineCount || 0}\n`;
-        content += ` * 生成时间: ${new Date().toISOString()}\n`;
+        content += ` * Version: v${versionIndex}\n`;
+        content += ` * Code hash: ${codeHash}\n`;
+        content += ` * Source file: ${slice.sourceFile}\n`;
+        content += ` * Detection type: ${slice.detection.type}\n`;
+        content += ` * Confidence: ${slice.detection.confidence}\n`;
+        content += ` * Function name: ${slice.slice.name || 'anonymous'}\n`;
+        content += ` * Line count: ${slice.slice.lineCount || 0}\n`;
+        content += ` * Generated time: ${new Date().toISOString()}\n`;
         content += ` */\n\n`;
 
-        // 直接输出原始代码
+        // Directly output original code
         content += slice.slice.code;
 
-        // 添加元数据注释
-        content += `\n\n// ==================== 元数据 ====================\n`;
-        content += `// 此文件包含从 ${appId} 提取的 ${algorithm} 算法实现\n`;
-        content += `// 检测位置: 行 ${slice.detection.position.start.line}-${slice.detection.position.end.line}\n`;
-        content += `// 变量名: ${slice.detection.variable}\n`;
-        content += `// 检测源: ${slice.detection.source || 'unknown'}\n`;
+        // Add metadata comments
+        content += `\n\n// ==================== Metadata ====================\n`;
+        content += `// This file contains the ${algorithm} algorithm implementation extracted from ${appId}\n`;
+        content += `// Detection position: lines ${slice.detection.position.start.line}-${slice.detection.position.end.line}\n`;
+        content += `// Variable name: ${slice.detection.variable}\n`;
+        content += `// Detection source: ${slice.detection.source || 'unknown'}\n`;
 
         return content;
     }
 
     /**
-     * 按App分组切片
+     * Group slices by App
      */
     groupSlicesByApp(slices) {
         const grouped = {};
@@ -204,37 +204,37 @@ class LibsAnalyzer {
     }
 
     /**
-     * 处理单个算法的所有切片
+     * Process all slices of a single algorithm
      */
     processAlgorithmSlices(algorithm, slices) {
-        console.log(`\n🔄 处理算法: ${algorithm} (${slices.length} 个切片)`);
+        console.log(`\n🔄 Processing algorithm: ${algorithm} (${slices.length} slices)`);
 
         const processedFiles = [];
         const seenHashes = new Set();
         let versionIndex = 1;
 
-        // 按App分组
+        // Group by App
         const appGroups = this.groupSlicesByApp(slices);
 
         for (const [appId, appSlices] of Object.entries(appGroups)) {
-            console.log(`  📱 处理App: ${appId} (${appSlices.length} 个切片)`);
+            console.log(`  📱 Processing App: ${appId} (${appSlices.length} slices)`);
 
             for (const slice of appSlices) {
                 const codeHash = this.generateCodeHash(slice.slice.code);
 
-                // 跳过重复的代码
+                // Skip duplicate code
                 if (seenHashes.has(codeHash)) {
-                    console.log(`    ⏭️  跳过重复代码: ${codeHash.substring(0, 6)}`);
+                    console.log(`    ⏭️  Skip duplicate code: ${codeHash.substring(0, 6)}`);
                     continue;
                 }
 
                 seenHashes.add(codeHash);
 
-                // 生成独立的JS文件
+                // Generate independent JS file
                 const fileInfo = this.generateSingleAlgorithmFile(slice, versionIndex);
                 processedFiles.push(fileInfo);
 
-                // 更新统计信息
+                // Update stats
                 if (!this.stats.appAlgorithmMatrix[appId]) {
                     this.stats.appAlgorithmMatrix[appId] = [];
                 }
@@ -246,19 +246,19 @@ class LibsAnalyzer {
             }
         }
 
-        // 更新算法版本统计
+        // Update algorithm version stats
         this.stats.algorithmVersions[algorithm] = {
             totalVersions: processedFiles.length,
             appCount: Object.keys(appGroups).length,
             apps: Object.keys(appGroups)
         };
 
-        console.log(`  ✅ ${algorithm} 处理完成: ${processedFiles.length} 个版本`);
+        console.log(`  ✅ ${algorithm} processing completed: ${processedFiles.length} versions`);
         return processedFiles;
     }
 
     /**
-     * 生成算法汇总报告
+     * Generate algorithm summary report
      */
     generateAlgorithmSummary(algorithm, processedFiles) {
         const summaryPath = path.join(this.outputDir, 'reports', `${algorithm}_summary.json`);
@@ -279,11 +279,11 @@ class LibsAnalyzer {
         };
 
         fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
-        console.log(`📊 生成算法汇总: ${algorithm}_summary.json`);
+        console.log(`📊 Generated algorithm summary: ${algorithm}_summary.json`);
     }
 
     /**
-     * 生成全局分析报告
+     * Generate global analysis report
      */
     generateGlobalReport() {
         const reportPath = path.join(this.outputDir, 'reports', 'global_analysis.json');
@@ -298,7 +298,7 @@ class LibsAnalyzer {
             appAlgorithmMatrix: this.stats.appAlgorithmMatrix,
             algorithmVersions: this.stats.algorithmVersions,
             fileStructure: {
-                description: "每个算法实现输出为独立JS文件",
+                description: "Each algorithm implementation is output as an independent JS file",
                 byApp: "analysis_output/by_app/{appId}/{appId}_{algorithm}_v{version}_{hash}.js",
                 byAlgorithm: "analysis_output/by_algorithm/{algorithm}/{appId}_{algorithm}_v{version}_{hash}.js",
                 reports: "analysis_output/reports/"
@@ -306,14 +306,14 @@ class LibsAnalyzer {
         };
 
         fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-        console.log(`📈 生成全局报告: global_analysis.json`);
+        console.log(`📈 Generated global report: global_analysis.json`);
 
-        // 生成Markdown报告
+        // Generate Markdown report
         this.generateMarkdownReport(report);
     }
 
     /**
-     * 生成Markdown报告
+     * Generate Markdown report
      */
     generateMarkdownReport(report) {
         const reportPath = path.join(this.outputDir, 'reports', 'analysis_report.md');
@@ -351,29 +351,29 @@ class LibsAnalyzer {
         content += `- \`hash\`: 代码哈希值前6位\n`;
 
         fs.writeFileSync(reportPath, content);
-        console.log(`📝 生成Markdown报告: analysis_report.md`);
+        console.log(`📝 Generated Markdown report: analysis_report.md`);
     }
 
     /**
-     * 主要分析流程
+     * Main analysis process
      */
     async analyze() {
-        console.log('🚀 开始分析libs目录...');
+        console.log('🚀 Starting analysis of libs directory...');
 
         const algorithms = this.getAlgorithmDirs();
         if (algorithms.length === 0) {
-            console.log('❌ 没有找到算法目录');
+            console.log('❌ No algorithm directory found');
             return;
         }
 
-        console.log(`📁 找到 ${algorithms.length} 个算法: ${algorithms.join(', ')}`);
+        console.log(`📁 Found ${algorithms.length} algorithms: ${algorithms.join(', ')}`);
         this.stats.totalAlgorithms = algorithms.length;
 
-        // 处理每个算法
+        // Process each algorithm
         for (const algorithm of algorithms) {
             const slices = this.readSliceFiles(algorithm);
             if (slices.length === 0) {
-                console.warn(`⚠️  算法 ${algorithm} 没有有效的切片文件`);
+                console.warn(`⚠️  Algorithm ${algorithm} has no valid slice files`);
                 continue;
             }
 
@@ -381,15 +381,15 @@ class LibsAnalyzer {
             this.generateAlgorithmSummary(algorithm, processedFiles);
         }
 
-        // 生成全局报告
+        // Generate global report
         this.generateGlobalReport();
 
-        console.log('\n🎉 分析完成!');
-        console.log(`📊 统计信息:`);
-        console.log(`   - 处理的算法: ${this.stats.totalAlgorithms}`);
-        console.log(`   - 涉及的App: ${Object.keys(this.stats.appAlgorithmMatrix).length}`);
-        console.log(`   - 生成的文件: ${this.stats.totalFiles}`);
-        console.log(`   - 文件结构:`);
+        console.log('\n🎉 Analysis completed!');
+        console.log(`📊 Statistics:`);
+        console.log(`   - Processed algorithms: ${this.stats.totalAlgorithms}`);
+        console.log(`   - Involved apps: ${Object.keys(this.stats.appAlgorithmMatrix).length}`);
+        console.log(`   - Generated files: ${this.stats.totalFiles}`);
+        console.log(`   - File structure:`);
         console.log(`     * analysis_output/by_app/{appId}/{appId}_{algorithm}_v{version}_{hash}.js`);
         console.log(`     * analysis_output/by_algorithm/{algorithm}/{appId}_{algorithm}_v{version}_{hash}.js`);
         console.log(`     * analysis_output/reports/`);
@@ -401,7 +401,7 @@ class LibsAnalyzer {
 // 导出和执行
 module.exports = LibsAnalyzer;
 
-// 如果直接运行此文件
+// If running this file directly
 if (require.main === module) {
     const analyzer = new LibsAnalyzer();
     analyzer.analyze().catch(console.error);
